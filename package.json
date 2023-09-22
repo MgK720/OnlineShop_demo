@@ -1,0 +1,10 @@
+{
+  "name": "OnlineShop_demo",
+  "version": "1.0.0",
+  "description": "OnlineShop_demo",
+  "main": "server/server.js",
+  "scripts": {
+    "server": "nodemon server/server.js",
+    "client": "cd server && npm run dev"
+  }
+}
