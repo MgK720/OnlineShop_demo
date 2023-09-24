@@ -16,9 +16,16 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
 
     useEffect(()=>{
       setLoginData(initData);
+      setInputError(initInputError)
+      //here
+      setIsDataNotFilled(true)
     }, [open])
 
     const handleChange = (evt) => {
+      //here
+      if(loginData.login && loginData.password){
+        setIsDataNotFilled(false);
+      }
       setInputError((currData) =>{
         return {...currData, [evt.target.name]: evt.target.value.length < 8 ? true : false}
       });
@@ -27,8 +34,12 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
       })
     }
 
-    const [inputError, setInputError] = useState({login: null, password: null});
+    const initInputError = {login: null, password: null}
+    const [inputError, setInputError] = useState(initInputError);
+    //here
+    const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
+    //trzeba zrobic nowy state i sprawdzać czy wszystkie inputy są wypełnione jeśli są to ustaw button na enable - przenieść to teraz do signup forma
     const signIn = () => {
       const noErrors = !inputError.login && !inputError.password;
       const allRequiredDataFilled = loginData.login && loginData.password
@@ -62,7 +73,7 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
             <Typography variant="h5" textAlign="center" sx={{mb:2, textTransform:'uppercase'}}>Sign in</Typography>
             <LoginFormControl inputError={inputError.login} loginState={loginData.login} handleChange={handleChange}/>
             <PasswordFormControl inputError={inputError.password} passwordState={loginData.password} handleChange={handleChange}/>
-            <Button variant="contained" fullWidth onClick={signIn}>Login</Button>
+            <Button variant="contained" fullWidth onClick={signIn} disabled={isDataNotFilled}>Login</Button>
             {signInError.signTry && (signInError.error ? <div>{signInErrorAlert()}</div> : <div>{signInSuccessAlert()}</div>) }
         </Box>
       </Dialog>
