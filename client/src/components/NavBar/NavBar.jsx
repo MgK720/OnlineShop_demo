@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import SignInForm from '../SignInForm/SignInForm';
+import SignInForm from '../Authentication/SignInForm';
 
 export default function NavBar({isLoggedIn, setIsLoggedIn}) {
     const [signInError, setSignInError] = useState({signTry: false, error: false});
