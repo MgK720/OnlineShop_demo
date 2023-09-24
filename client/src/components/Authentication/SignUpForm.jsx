@@ -63,7 +63,7 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
                 <Typography variant="h5" textAlign="center" sx={{mb:2, textTransform:'uppercase'}}>Sign up</Typography>
                 <LoginFormControl inputError={inputError.login} loginState={registerData.login} handleChange={handleChange}/>
                 <PasswordFormControl inputError={inputError.password} passwordState={registerData.password} handleChange={handleChange} nonMb={true}/>
-                <PasswordFormControl inputError={inputError.passwordRep} errorMsg={inputError.errorMsg} passwordState={registerData.passwordRep} handleChange={handleChange} inputName="passwordRep"/>
+                <PasswordFormControl inputError={inputError.passwordRep} errorMsg={inputError.errorMsg} passwordState={registerData.passwordRep} handleChange={handleChange} inputName="passwordRep" label="Confirm-Password"/>
                 <Button variant="contained" fullWidth onClick={signUp}>Register</Button>
                 {signUpError.signUpTry && (signUpError.error ? <div>{signUpErrorAlert()}</div> : <div>{signUpSuccessAlert()}</div>) }
             </Box>

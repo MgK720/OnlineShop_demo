@@ -8,7 +8,7 @@ import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
-export default function PasswordFormControl({inputError,errorMsg, passwordState, handleChange, inputName, nonMb}){
+export default function PasswordFormControl({inputError,errorMsg, passwordState, handleChange, inputName,label, nonMb}){
     const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -18,7 +18,7 @@ export default function PasswordFormControl({inputError,errorMsg, passwordState,
     };
     return(
         <FormControl sx={{ m: 1,mb: nonMb ? 1 : 3, ml:0, width: '100%' }} variant="outlined" error={inputError}>
-              <InputLabel htmlFor="login">Password</InputLabel>
+              <InputLabel htmlFor={inputName ? inputName : "password"}>{label ? label : "Password"}</InputLabel>
               <OutlinedInput
                   value={passwordState}
                   onChange={handleChange}
@@ -37,7 +37,7 @@ export default function PasswordFormControl({inputError,errorMsg, passwordState,
                       </IconButton>
                   </InputAdornment>
                   }
-                  label={inputName ? inputName : "password"}
+                  label={label ? label : "password"}
                   required
                   fullWidth
               />
