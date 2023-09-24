@@ -26,6 +26,12 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
       if(!inputError.login && !inputError.password){
         const responseOK = 1; //1 - done
         responseOK ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
+        setTimeout(() => {
+            setLoginData({
+              login: "",
+              password: ""
+            })
+        }, 1000)
       }
     }
 

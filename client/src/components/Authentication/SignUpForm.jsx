@@ -36,6 +36,13 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
         if(!inputError.login && !inputError.password && !inputError.passwordRep){
           const responseOK = 1; //1 - done
           responseOK ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
+          setTimeout(() => {
+                setRegisterData({
+                    login: "",
+                    password: "",
+                    passwordRep: ""
+                })
+            }, 1000)
         }
       }
 

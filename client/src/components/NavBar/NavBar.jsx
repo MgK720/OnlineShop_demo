@@ -44,7 +44,9 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
         },
         {
             name: "logout",
-            onClick: null,
+            onClick: () => {
+                logout()
+            },
             icon: <LogoutIcon/>
         }
     ]
@@ -86,7 +88,14 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
     if(!isLoggedIn && signUpError.signUpTry && !signUpError.error){
         closeSignUpComponent();
     }
-
+    //Logout
+    const logout = () => {
+        setTimeout(() => {
+            setSignUpError({signUpTry: false, error:false}),
+            setSignInError({signTry: false, error: false}),
+            setIsLoggedIn(false)
+        }, 500)
+    }
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
