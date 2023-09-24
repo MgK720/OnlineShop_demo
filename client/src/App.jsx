@@ -7,6 +7,7 @@ axios.defaults.baseURL = `http://localhost:3000`
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  //Tutaj useEffect za pierwszym renderem - sprawdzenie czy jestem zalogowany jak tak to setIsLoggedIn(true)
 
   return (
     <>

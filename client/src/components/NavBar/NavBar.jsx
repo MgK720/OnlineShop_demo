@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import SignInForm from '../Authentication/SignInForm';
 
 import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
@@ -40,6 +41,11 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             name: "cart",
             onClick: null,
             icon: <ShoppingCartIcon/>
+        },
+        {
+            name: "logout",
+            onClick: null,
+            icon: <LogoutIcon/>
         }
     ]
     //Login
