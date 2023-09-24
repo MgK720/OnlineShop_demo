@@ -3,16 +3,42 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import SignInForm from '../Authentication/SignInForm';
 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import MenuList from '@mui/material/MenuList';
+import LoginIcon from '@mui/icons-material/Login';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import MobileMenu from "./MobileMenu";
+import DesktopMenu from "./DesktopMenu";
 
 export default function NavBar({isLoggedIn, setIsLoggedIn}) {
+    const notAuthenticatedMenu = [
+        {
+            name: "register",
+            onClick: null,
+            icon: <PersonAddIcon />
+        },
+        {
+            name: "login",
+            onClick: () => {
+                openSignInForm()
+            },
+            icon: <LoginIcon />
+        }
+    ]
+    const authenticatedMenu = [
+        {
+            name: "profile",
+            onClick: null,
+            icon: <AccountCircleIcon/>
+        },
+        {
+            name: "cart",
+            onClick: null,
+            icon: <ShoppingCartIcon/>
+        }
+    ]
     const [signInError, setSignInError] = useState({signTry: false, error: false});
     const [open, setOpen] = useState(false);
 
@@ -32,35 +58,6 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
         closeSignInComponent();
     }
 
-    //Wywalić do component niżej
-    const [anchorEl, setAnchorEl] = useState(null);
-    const openMenu = Boolean(anchorEl)
-    const handleClickMenu = (evt) =>{
-        setAnchorEl(evt.currentTarget);
-    };
-    const handleCloseMenu = () => {
-        setAnchorEl(null);
-      };
-    //Przerobić na liste menuItemów w tym komponencie i wywolać list.map(elementListy)
-    const renderNotAuthenticatedMenu = (
-        <>
-        <Button color="inherit" sx={{display: {xs: 'none', md: 'inline'}}}>Register</Button> 
-        <Button color="inherit" onClick={openSignInForm} sx={{display: {xs: 'none', md: 'inline'}}}>Login</Button>
-        </>
-    );
-
-    const mobileMenuItemsNotAuthenticated = (
-        <MenuList>
-            <MenuItem>REGISTER</MenuItem>
-            <MenuItem onClick={() => {openSignInForm(); handleCloseMenu()}}>LOGIN</MenuItem>
-        </MenuList>
-    )
-    const mobileMenuItemsAuthenticated = (
-        <MenuList>
-            <MenuItem>Profile</MenuItem>
-        </MenuList>
-    )
-
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
@@ -68,32 +65,8 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 OnlineShop
             </Typography>
-            {!isLoggedIn ? <Box>{renderNotAuthenticatedMenu}</Box> : <Button color="inherit" sx={{display: {xs: 'none', md: 'inline'}}}>Account</Button> }
-            <IconButton
-                size="large"
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                sx={{ display: { xs: 'flex', md: 'none'}}}
-                onClick={handleClickMenu}
-            >
-                <MenuIcon />
-            </IconButton>
-            <Menu
-                anchorEl={anchorEl}
-                open={openMenu}
-                onClose={handleCloseMenu}
-                anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-                }}
-                transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-                }}
-            >
-            {!isLoggedIn ? <div>{mobileMenuItemsNotAuthenticated}</div> : <div>{mobileMenuItemsAuthenticated}</div>}
-            </Menu>
+            <DesktopMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
+            <MobileMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
             </Toolbar>
         </AppBar>
         <SignInForm open={open} handleClose={handleClose} signInError={signInError} setSignInError={setSignInError} />
