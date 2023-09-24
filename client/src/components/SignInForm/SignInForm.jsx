@@ -26,14 +26,16 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
       })
     }
 
-    const [showPassword, setShowPassword] = useState(false);
     const [inputError, setInputError] = useState({login: null, password: null});
+    //przenieść do componentu InputPassword.jsx
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    //___________________________________
     const signIn = () => {
       if(!inputError.login && !inputError.password){
         const responseOK = 1; //1 - done
@@ -54,6 +56,7 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
           }}
         >
             <Typography variant="h5" textAlign="center" sx={{mb:2, textTransform:'uppercase'}}>Sign in</Typography>
+            {/* rozdzielić formControle na osobne componenty*/}
             <FormControl sx={{ m: 1, width: '35ch' }} variant="outlined" error={inputError.login}>
               <InputLabel htmlFor="login">Login</InputLabel>
               <OutlinedInput

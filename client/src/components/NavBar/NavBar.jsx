@@ -44,7 +44,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                 OnlineShop
             </Typography>
-            {!isLoggedIn ? <Button color="inherit" onClick={openSignInForm}>Login</Button> : <Button color="inherit">Account</Button> }
+            {!isLoggedIn ? <Box><Button color="inherit">Register</Button> <Button color="inherit" onClick={openSignInForm} size="small">Login</Button></Box> : <Button color="inherit">Account</Button> }
             </Toolbar>
         </AppBar>
         <SignInForm open={open} handleClose={handleClose} signInError={signInError} setSignInError={setSignInError} />
