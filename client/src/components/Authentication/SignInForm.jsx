@@ -1,5 +1,5 @@
 import Box from '@mui/material/Box';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { Dialog, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
@@ -7,10 +7,17 @@ import PasswordFormControl from './FormControls/PasswordFormControl';
 import LoginFormControl from './FormControls/LoginFormControl';
 
 export default function SignInForm({open, handleClose, signInError, setSignInError}){
-    const [loginData, setLoginData] = useState({
-      login: "",
-      password: ""
-    })
+    const initData = {
+        login: "",
+        password: ""
+    };
+
+    const [loginData, setLoginData] = useState(initData)
+
+    useEffect(()=>{
+      setLoginData(initData);
+    }, [open])
+
     const handleChange = (evt) => {
       setInputError((currData) =>{
         return {...currData, [evt.target.name]: evt.target.value.length < 8 ? true : false}
@@ -26,12 +33,6 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
       if(!inputError.login && !inputError.password){
         const responseOK = 1; //1 - done
         responseOK ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
-        setTimeout(() => {
-            setLoginData({
-              login: "",
-              password: ""
-            })
-        }, 1000)
       }
     }
 

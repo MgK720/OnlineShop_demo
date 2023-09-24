@@ -1,17 +1,24 @@
 import Box from '@mui/material/Box';
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import { Dialog, Typography } from '@mui/material';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import PasswordFormControl from './FormControls/PasswordFormControl';
 import LoginFormControl from './FormControls/LoginFormControl';
 
-export default function SignUpForm ({open, handleClose, signUpError, setSignUpError}) { 
-    const [registerData, setRegisterData] = useState({
+export default function SignUpForm ({open, handleClose, signUpError, setSignUpError}) {
+    const initData = {
         login: "",
         password: "",
         passwordRep: ""
-      })
+    }
+    const [registerData, setRegisterData] = useState(initData)
+
+    useEffect(()=>{
+        setRegisterData(initData);
+        setInputError(initInputError);
+      }, [open])
+    
     //In the future use validation tools !!! (eg Formik)
     const handleChange = (evt) => {
         if(evt.target.name == "passwordRep"){
@@ -29,20 +36,13 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
           return {...currData, [evt.target.name]: evt.target.value}
         })
       }
-
-    const [inputError, setInputError] = useState({login: null, password: null, passwordRep: null, errorMsg:null})
+    const initInputError = {login: null, password: null, passwordRep: null, errorMsg:null}
+    const [inputError, setInputError] = useState(initInputError)
 
     const signUp = () => {
         if(!inputError.login && !inputError.password && !inputError.passwordRep){
           const responseOK = 1; //1 - done
           responseOK ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
-          setTimeout(() => {
-                setRegisterData({
-                    login: "",
-                    password: "",
-                    passwordRep: ""
-                })
-            }, 1000)
         }
       }
 
