@@ -11,12 +11,15 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MobileMenu from "./MobileMenu";
 import DesktopMenu from "./DesktopMenu";
+import SignUpForm from "../Authentication/SignUpForm";
 
 export default function NavBar({isLoggedIn, setIsLoggedIn}) {
     const notAuthenticatedMenu = [
         {
             name: "register",
-            onClick: null,
+            onClick: () => {
+                openSignUpForm()
+            },
             icon: <PersonAddIcon />
         },
         {
@@ -39,23 +42,43 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             icon: <ShoppingCartIcon/>
         }
     ]
+    //Login
     const [signInError, setSignInError] = useState({signTry: false, error: false});
-    const [open, setOpen] = useState(false);
+    const [openSignIn, setOpenSignIn] = useState(false);
 
     const openSignInForm = () =>{
-        setOpen(true);
+        setOpenSignIn(true);
     }
-    const handleClose = () =>{
-        setOpen(false);
+    const handleCloseSignIn = () =>{
+        setOpenSignIn(false);
     }
     const closeSignInComponent = () => {
         setTimeout(()=>{
-            setOpen(false),
+            setOpenSignIn(false),
             setIsLoggedIn(true)
         }, 1000);
     }
     if(signInError.signTry && !signInError.error){
         closeSignInComponent();
+    }
+    //Register
+    const [signUpError, setSignUpError] = useState({signUpTry: false, error:false})
+    const [openSignUp, setOpenSignUp] = useState(false);
+
+    const openSignUpForm = () =>{
+        setOpenSignUp(true);
+    }
+    const handleCloseSignUp = () =>{
+        setOpenSignUp(false);
+    }
+    const closeSignUpComponent = () => {
+        setTimeout(()=>{
+            setOpenSignUp(false)
+            setOpenSignIn(true)
+        }, 1000);
+    }
+    if(!isLoggedIn && signUpError.signUpTry && !signUpError.error){
+        closeSignUpComponent();
     }
 
     return (
@@ -69,7 +92,8 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             <MobileMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
             </Toolbar>
         </AppBar>
-        <SignInForm open={open} handleClose={handleClose} signInError={signInError} setSignInError={setSignInError} />
+        <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
+        <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
         </Box>
     );
 }

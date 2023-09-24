@@ -18,7 +18,7 @@ export default function MobileMenu ({isLoggedIn, notAuthenticatedMenu, authentic
     const renderMenuMobile = (menuItemsArray) => (
         <MenuList>
             {menuItemsArray.map((e, index) => (
-                <MenuItem key={index} onClick={e.onClick} sx={{textTransform: "uppercase"}}>
+                <MenuItem key={index} onClick={() => {e.onClick();handleCloseMenu()}} sx={{textTransform: "uppercase", fontWeight:500}}>
                     {e.icon} 
                     {e.name}
                 </MenuItem>

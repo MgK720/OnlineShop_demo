@@ -28,6 +28,13 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
         responseOK ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
       }
     }
+
+    const signInErrorAlert = () => (
+        <Alert severity="error" sx={{mt:2}}>Sign in Failed - incorrect data</Alert>
+    )
+    const signInSuccessAlert = () => (
+        <Alert severity="success" sx={{mt:2}}>Signed in</Alert>
+    )
     return (
       <Dialog open={open} onClose={handleClose} sx={{p:0, m:0 }}>
         <Box
@@ -47,7 +54,7 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
             <LoginFormControl inputError={inputError.login} loginState={loginData.login} handleChange={handleChange}/>
             <PasswordFormControl inputError={inputError.password} passwordState={loginData.password} handleChange={handleChange}/>
             <Button variant="contained" fullWidth onClick={signIn}>Login</Button>
-            {signInError.signTry && (signInError.error ? <Alert severity="error" sx={{mt:2}}>Sign in Failed - incorrect data</Alert> : <Alert severity="success" sx={{mt:2}}>Signed in</Alert>) }
+            {signInError.signTry && (signInError.error ? <div>{signInErrorAlert()}</div> : <div>{signInSuccessAlert()}</div>) }
         </Box>
       </Dialog>
     );
