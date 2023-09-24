@@ -2,6 +2,7 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuList from '@mui/material/MenuList';
 import IconButton from '@mui/material/IconButton';
+import Button from '@mui/material/Button';
 import MenuIcon from '@mui/icons-material/Menu';
 import {useState} from "react"
 
@@ -19,8 +20,9 @@ export default function MobileMenu ({isLoggedIn, notAuthenticatedMenu, authentic
         <MenuList>
             {menuItemsArray.map((e, index) => (
                 <MenuItem key={index} onClick={() => {e.onClick();handleCloseMenu()}} sx={{textTransform: "uppercase", fontWeight:500}}>
-                    {e.icon} 
-                    {e.name}
+                    <Button sx={{textTransform: "uppercase"}} startIcon={e.icon} fullWidth>
+                        {e.name}
+                    </Button>
                 </MenuItem>
                 )
             )}
