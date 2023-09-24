@@ -40,6 +40,7 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
     const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
     //trzeba zrobic nowy state i sprawdzać czy wszystkie inputy są wypełnione jeśli są to ustaw button na enable - przenieść to teraz do signup forma
+    //pomyśleć jak zrobić możliwość zamkniecia panelu logowania po zarejestrowaniu się
     const signIn = () => {
       const noErrors = !inputError.login && !inputError.password;
       const allRequiredDataFilled = loginData.login && loginData.password
