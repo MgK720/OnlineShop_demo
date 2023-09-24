@@ -10,8 +10,8 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import MobileMenu from "./MobileMenu";
-import DesktopMenu from "./DesktopMenu";
+import MobileMenu from "./Menu/MobileMenu";
+import DesktopMenu from "./Menu/DesktopMenu";
 import SignUpForm from "../Authentication/SignUpForm";
 
 export default function NavBar({isLoggedIn, setIsLoggedIn}) {
