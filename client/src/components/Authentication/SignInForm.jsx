@@ -30,7 +30,9 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
     const [inputError, setInputError] = useState({login: null, password: null});
 
     const signIn = () => {
-      if(!inputError.login && !inputError.password){
+      const noErrors = !inputError.login && !inputError.password;
+      const allRequiredDataFilled = loginData.login && loginData.password
+      if(noErrors && allRequiredDataFilled){
         const responseOK = 1; //1 - done
         responseOK ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
       }

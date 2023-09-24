@@ -40,7 +40,9 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
     const [inputError, setInputError] = useState(initInputError)
 
     const signUp = () => {
-        if(!inputError.login && !inputError.password && !inputError.passwordRep){
+        const noErrors = !inputError.login && !inputError.password && !inputError.passwordRep;
+        const allRequiredDataFilled = registerData.login && registerData.password && registerData.passwordRep 
+        if(noErrors && allRequiredDataFilled ){
           const responseOK = 1; //1 - done
           responseOK ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
         }
