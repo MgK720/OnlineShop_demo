@@ -17,6 +17,7 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
     useEffect(()=>{
         setRegisterData(initData);
         setInputError(initInputError);
+        setIsDataNotFilled(true)
       }, [open])
     
     //In the future use validation tools !!! (eg Formik)
@@ -36,8 +37,17 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
           return {...currData, [evt.target.name]: evt.target.value}
         })
       }
+
+    useEffect (() => {
+        if(registerData.login, registerData.password, registerData.passwordRep){
+          setIsDataNotFilled(false);
+        }
+      }, [registerData.login, registerData.password, registerData.passwordRep]) 
+      
     const initInputError = {login: null, password: null, passwordRep: null, errorMsg:null}
     const [inputError, setInputError] = useState(initInputError)
+
+    const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
     const signUp = () => {
         const noErrors = !inputError.login && !inputError.password && !inputError.passwordRep;
@@ -73,7 +83,7 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
                 <LoginFormControl inputError={inputError.login} loginState={registerData.login} handleChange={handleChange}/>
                 <PasswordFormControl inputError={inputError.password} passwordState={registerData.password} handleChange={handleChange} nonMb={true}/>
                 <PasswordFormControl inputError={inputError.passwordRep} errorMsg={inputError.errorMsg} passwordState={registerData.passwordRep} handleChange={handleChange} inputName="passwordRep" label="Confirm-Password"/>
-                <Button variant="contained" fullWidth onClick={signUp}>Register</Button>
+                <Button variant="contained" fullWidth onClick={signUp} disabled={isDataNotFilled}>Register</Button>
                 {signUpError.signUpTry && (signUpError.error ? <div>{signUpErrorAlert()}</div> : <div>{signUpSuccessAlert()}</div>) }
             </Box>
         </Dialog>

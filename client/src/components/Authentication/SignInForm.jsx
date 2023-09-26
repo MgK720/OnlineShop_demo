@@ -17,15 +17,10 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
     useEffect(()=>{
       setLoginData(initData);
       setInputError(initInputError)
-      //here
       setIsDataNotFilled(true)
     }, [open])
 
     const handleChange = (evt) => {
-      //here
-      if(loginData.login && loginData.password){
-        setIsDataNotFilled(false);
-      }
       setInputError((currData) =>{
         return {...currData, [evt.target.name]: evt.target.value.length < 8 ? true : false}
       });
@@ -33,14 +28,18 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
         return {...currData, [evt.target.name]: evt.target.value}
       })
     }
+   
+    useEffect (() => {
+      if(loginData.login && loginData.password){
+        setIsDataNotFilled(false);
+      }
+    }, [loginData.login, loginData.password])
 
     const initInputError = {login: null, password: null}
     const [inputError, setInputError] = useState(initInputError);
-    //here
+   
     const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
-    //trzeba zrobic nowy state i sprawdzać czy wszystkie inputy są wypełnione jeśli są to ustaw button na enable - przenieść to teraz do signup forma
-    //pomyśleć jak zrobić możliwość zamkniecia panelu logowania po zarejestrowaniu się
     const signIn = () => {
       const noErrors = !inputError.login && !inputError.password;
       const allRequiredDataFilled = loginData.login && loginData.password
