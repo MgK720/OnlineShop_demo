@@ -4,6 +4,7 @@ import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SignInForm from '../Authentication/SignInForm';
+import ProfileForm from "../Profile/ProfileForm"
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -34,7 +35,9 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
     const authenticatedMenu = [
         {
             name: "profile",
-            onClick: null,
+            onClick: () =>{
+                openProfileForm()
+            },
             icon: <AccountCircleIcon/>
         },
         {
@@ -96,6 +99,17 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             setIsLoggedIn(false)
         }, 500)
     }
+    //Profile
+    const [isProfileComplete, setIsProfileComplete] = useState(false); //potrzebne pozniej do sprawdzania czy uzytkownik moze zlozyc zamowienie
+    const [profileError, setProfileError] = useState({editTry: false, error: false})
+    const [openProfile, setOpenProfile] = useState(false);
+
+    const openProfileForm = () =>{
+        setOpenProfile(true);
+    }
+    const handleCloseProfile = () =>{
+        setOpenProfile(false);
+    }
     return (
         <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static">
@@ -109,6 +123,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
         </AppBar>
         <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
         <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
+        <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError}/>
         </Box>
     );
 }
