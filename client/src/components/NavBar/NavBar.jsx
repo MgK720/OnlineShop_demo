@@ -11,6 +11,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddIcon from '@mui/icons-material/PersonAdd';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import HistoryIcon from '@mui/icons-material/History';
 import MobileMenu from "./Menu/MobileMenu";
 import DesktopMenu from "./Menu/DesktopMenu";
 import SignUpForm from "../Authentication/SignUpForm";
@@ -41,6 +42,13 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             icon: <AccountCircleIcon/>
         },
         {
+            name: "history",
+            onClick: () => {
+                () => {};
+            },
+            icon: <HistoryIcon/>
+        },
+        {
             name: "cart",
             onClick: null,
             icon: <ShoppingCartIcon/>
@@ -53,6 +61,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             icon: <LogoutIcon/>
         }
     ]
+    //Przerobić ponizsze na pojedynczy useState z objectem dla kazdego "buttona"
     //Login
     const [signInError, setSignInError] = useState({signTry: false, error: false});
     const [openSignIn, setOpenSignIn] = useState(false);
@@ -123,7 +132,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
         </AppBar>
         <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
         <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
-        <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError}/>
+        <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete}/>
         </Box>
     );
 }
