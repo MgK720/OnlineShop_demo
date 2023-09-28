@@ -15,8 +15,12 @@ import HistoryIcon from '@mui/icons-material/History';
 import MobileMenu from "./Menu/MobileMenu";
 import DesktopMenu from "./Menu/DesktopMenu";
 import SignUpForm from "../Authentication/SignUpForm";
+import Badge from '@mui/material/Badge';
 
 export default function NavBar({isLoggedIn, setIsLoggedIn}) {
+    //Cart
+    const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(1);
+    //Pozniej i tak to powyzej wrzucic do jednego duzego useState'a dla wszystkich menuButtonow
     const notAuthenticatedMenu = [
         {
             name: "register",
@@ -51,7 +55,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
         {
             name: "cart",
             onClick: null,
-            icon: <ShoppingCartIcon/>
+            icon: <Badge badgeContent={numberOfItemsInCart} color="warning"><ShoppingCartIcon/></Badge>
         },
         {
             name: "logout",
