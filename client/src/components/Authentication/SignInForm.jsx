@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import {useState, useEffect} from "react"
-import { Dialog, Typography } from '@mui/material';
+import { Dialog, Typography, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import PasswordFormControl from './FormControls/PasswordFormControl';
@@ -70,7 +70,8 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
             pb:4
           }}
         >
-            <Typography variant="h5" textAlign="center" sx={{mb:2, textTransform:'uppercase'}}>Sign in</Typography>
+            <Typography variant="h5" textAlign="center" sx={{textTransform:'uppercase'}}>Sign in</Typography>
+            <Divider sx={{mb:1, mt:1}}/>
             <LoginFormControl inputError={inputError.login} loginState={loginData.login} handleChange={handleChange}/>
             <PasswordFormControl inputError={inputError.password} passwordState={loginData.password} handleChange={handleChange}/>
             <Button variant="contained" fullWidth onClick={signIn} disabled={isDataNotFilled}>Login</Button>

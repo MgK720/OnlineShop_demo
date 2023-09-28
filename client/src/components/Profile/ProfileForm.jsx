@@ -1,6 +1,7 @@
 import { Dialog, TextField } from "@mui/material"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
+import Divider from "@mui/material/Divider"
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button'
 import { useState } from "react";
@@ -114,9 +115,10 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
                     p:1
                 }}
             >
-                <Grid container spacing={3}>
+                <Grid container spacing={2}>
                     <Grid xs={12}>
                         <Typography variant="h4" textAlign="center" sx={{textTransform:'uppercase'}}>Delivery data: </Typography>
+                        <Divider sx={{mt:1}}/>
                     </Grid>
                     <Grid xs={12} md={6}>
                         <TextInput data={data.firstname}/>

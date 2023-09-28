@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import {useState, useEffect} from "react"
-import { Dialog, Typography } from '@mui/material';
+import { Dialog, Typography, Divider } from '@mui/material';
 import Button from '@mui/material/Button';
 import Alert from '@mui/material/Alert';
 import PasswordFormControl from './FormControls/PasswordFormControl';
@@ -79,7 +79,8 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
                 pb:4
             }}
             >
-                <Typography variant="h5" textAlign="center" sx={{mb:2, textTransform:'uppercase'}}>Sign up</Typography>
+                <Typography variant="h5" textAlign="center" sx={{textTransform:'uppercase'}}>Sign up</Typography>
+                <Divider sx={{mb:1, mt:1}}/>
                 <LoginFormControl inputError={inputError.login} loginState={registerData.login} handleChange={handleChange}/>
                 <PasswordFormControl inputError={inputError.password} passwordState={registerData.password} handleChange={handleChange} nonMb={true}/>
                 <PasswordFormControl inputError={inputError.passwordRep} errorMsg={inputError.errorMsg} passwordState={registerData.passwordRep} handleChange={handleChange} inputName="passwordRep" label="Confirm-Password"/>
