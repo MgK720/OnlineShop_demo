@@ -4,9 +4,10 @@ import Typography from "@mui/material/Typography"
 import Divider from "@mui/material/Divider"
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "./TextInput";
-//{inputError, inputName, inputValue, handleChange, isRequired}
+//moze jescze endDecorator lub startDecorator dla inputów
+//ustawić maxlength dla kazdej wartości
 
 export default function DeliveryForm({open, handleClose, isProfileComplete, setIsProfileComplete}) {
     const [data, setData] = useState({
@@ -39,6 +40,11 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
             inputValue: "",
             isRequired: true,
             handleChange: (evt) => {
+                const regExp = /[a-zA-Z]/g;
+                const isInvalid = regExp.test(evt.target.value);
+                setData((currData) => {
+                    return {...currData, [evt.target.name]: {...currData[evt.target.name], inputError: {status: isInvalid, msg: isInvalid ? "This is not valid phone number": ""} }}
+                })
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -93,8 +99,20 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
                 status:false,
                 msg: ""
             }
-        }
+        },
+        isDataNotFilled: true
     })
+
+    useEffect(()=>{
+        const isDataFilled = !Object.values(data).some(field => field.inputValue === "");
+        const noErrors = !Object.values(data).some(field => field.inputError && field.inputError.status === true);
+
+        if(isDataFilled){
+            setData((currData) => {
+                return {...currData, isDataNotFilled: noErrors ? false : true}
+            })
+        }
+    }, [data])
 
     const handleChangeFunc = (evt) => {
         const { name, value } = evt.target;
@@ -145,7 +163,7 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
                         <TextInput data={data.houseNumber}></TextInput>
                     </Grid>
                     <Grid xs={12} md={9} mdOffset={1.5}>
-                        <Button variant="contained" fullWidth >Confirm</Button>
+                        <Button variant="contained" fullWidth disabled={data.isDataNotFilled}>Confirm</Button>
                     </Grid>
                 </Grid>
             </Box>
