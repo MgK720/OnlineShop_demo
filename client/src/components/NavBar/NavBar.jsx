@@ -65,7 +65,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
             icon: <LogoutIcon/>
         }
     ]
-    //Przerobić ponizsze na pojedynczy useState z objectem dla kazdego "buttona"
+    //Przerobić ponizsze na pojedynczy useState z objectem dla kazdego "buttona" - tak jak w ../Profile/ProfileForm
     //Login
     const [signInError, setSignInError] = useState({signTry: false, error: false});
     const [openSignIn, setOpenSignIn] = useState(false);
