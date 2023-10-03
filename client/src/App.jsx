@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import axios from "axios";
 import './App.css'
 import NavBar from './components/NavBar/NavBar';
+import MainSection from './components/MainSection/MainSection';
 
 axios.defaults.baseURL = `http://localhost:3000`
 
@@ -12,6 +13,7 @@ function App() {
     <>
     <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
     {isLoggedIn && <p>Hello!!!</p>}
+    <MainSection isLoggedIn={isLoggedIn}/>
       {/* <Typography variant="h1">{data.message}</Typography> */}
 
     </>
