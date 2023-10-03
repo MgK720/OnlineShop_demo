@@ -1,4 +1,5 @@
-import CategoryList from "./CategoryList/CategoryList"
+import DesktopCategoryList from "./CategoryList/DesktopCategoryList"
+import MobileCategoryList from "./CategoryList/MobileCategoryList";
 //import ItemsList from "./ItemsList/ItemsList"
 
 import { useEffect, useState } from "react";
@@ -6,15 +7,23 @@ import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Box } from "@mui/material";
 
+import { useMediaQuery } from '@mui/material';
+
 export default function MainSection() {
+    const isMobile = useMediaQuery('(max-width:600px)');
+
     //kategorie pobrane z bazy danych
-    const categories = ["one", "two", "three"]
+    const categories = ["onegfdgdf", "twodsadsa", "three", "dsadxzas", "dsaddsas", "dsadacs", "dsadasdas"]
     const [alignmentCategorie, setAlignmentCategorie] = useState(categories[0] ? categories[0] : null ); //która kategoria ma się wyświetlić w ItemsList
 
     const handleChangeCategories = (event, newAlignment) => {
-        if (newAlignment !== null) {
-            setAlignmentCategorie(newAlignment);
-          }
+        if(!isMobile){
+            if (newAlignment !== null) {
+                setAlignmentCategorie(newAlignment);
+            }
+        }else{
+            setAlignmentCategorie(event.target.value);
+        }
     };
 
     useEffect(()=>{
@@ -28,6 +37,12 @@ export default function MainSection() {
         ]
     }, [alignmentCategorie])
 
+    const renderDesktopCategoryList = (
+        <DesktopCategoryList categories={categories} alignment={alignmentCategorie} handleChange={handleChangeCategories} />
+    )
+    const renderMobileCategoryList = (
+        <MobileCategoryList categories={categories} alignment={alignmentCategorie} handleChange={handleChangeCategories} />
+    )
     return(
         <Box
                 component="div"
@@ -40,7 +55,7 @@ export default function MainSection() {
             >
             <Grid xs={12} md={8} mdOffset={2} sx={{textAlign: 'center'}}>
                 <Grid xs={12} md={8} mdOffset={2}>
-                    <CategoryList categories={categories} alignment={alignmentCategorie} handleChange={handleChangeCategories} />
+                    {isMobile ? renderMobileCategoryList : renderDesktopCategoryList} 
                 </Grid>
                 <Grid xs={12} md={10} mdOffset={1}>
                     {/*<ItemsList />*/}
