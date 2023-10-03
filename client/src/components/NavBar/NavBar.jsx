@@ -54,7 +54,9 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
         },
         {
             name: "cart",
-            onClick: null,
+            onClick: () => {
+                () => {};
+            },
             icon: <Badge badgeContent={numberOfItemsInCart} color="warning"><ShoppingCartIcon/></Badge>
         },
         {
