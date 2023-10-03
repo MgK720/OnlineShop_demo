@@ -7,7 +7,7 @@ axios.defaults.baseURL = `http://localhost:3000`
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  //Tutaj useEffect za pierwszym renderem - sprawdzenie czy jestem zalogowany jak tak to setIsLoggedIn(true) - todo sprawdzic czy to dziala
+  //Tutaj useEffect za pierwszym renderem - sprawdzenie czy jestem zalogowany jak tak to setIsLoggedIn(true) - todo sprawdzic czy to dziala - za kazdym zalogowaniem zrob init wszystkich state'ów (???)
   return (
     <>
     <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
