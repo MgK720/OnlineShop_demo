@@ -127,18 +127,18 @@ export default function NavBar({isLoggedIn, setIsLoggedIn}) {
     }
     return (
         <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-            <Toolbar>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                OnlineShop
-            </Typography>
-            <DesktopMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
-            <MobileMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
-            </Toolbar>
-        </AppBar>
-        <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
-        <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
-        <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete}/>
+            <AppBar position="fixed">
+                <Toolbar>
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                    OnlineShop
+                </Typography>
+                <DesktopMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
+                <MobileMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
+                </Toolbar>
+            </AppBar>
+            <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
+            <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
+            <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete}/>
         </Box>
     );
 }

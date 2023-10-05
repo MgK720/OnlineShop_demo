@@ -23,27 +23,26 @@ export default function Item({data, isMobile}){
                 image={data.imgsrc}
             />
             <CardContent>
-                <Typography color="text.secondary" variant="h4" sx={{mb: 2}}>
+                <Typography color="text.secondary" variant="h4" sx={{mb: 1.5}}>
                     {data.name}
                 </Typography>
-                <Chip label={`Price: ${data.price} ${currencyUnit}`} sx={{mx: 1}}/>
-                <Chip label={`Quantity: ${data.quantity} pcs`} sx={{mx: 1}}/>
+                <Chip label={`Price: ${data.price} ${currencyUnit}`} sx={{mx: 0.5 , mt:1}}/>
+                <Chip label={`Quantity: ${data.quantity} pcs`} sx={{mx: 0.5, mt:1}}/>
             </CardContent>
             <CardActions sx={{mx: 1, mb: 2, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                <div style={{display:'flex', justifyContent: 'center', alignItems: 'center'}}>
+                <FormControl sx={{ width: '5ch'}} variant="outlined">
                     <Typography>
-                        number:
+                        num:
                     </Typography>
-                    <FormControl sx={{ width: '5ch'}} variant="outlined">
-                        <Input
-                        size="small"
-                            name={`numberOfItems${data.id}`}
-                            id={`numberOfItems${data.id}`}
-                            type="number"
-                            required
-                        />
-                    </FormControl>
-                </div>
+                    <Input
+                    size="small"
+                        name={`numberOfItems${data.id}`}
+                        id={`numberOfItems${data.id}`}
+                        type="number"
+                        required
+                        sx={{ml:0.2, width: '5.5ch'}}
+                    />
+                </FormControl>
                 <Button variant="contained" endIcon={<AddShoppingCartIcon />}>
                     Add
                 </Button>

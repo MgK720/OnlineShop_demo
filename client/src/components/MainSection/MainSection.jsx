@@ -12,7 +12,7 @@ import { useMediaQuery } from '@mui/material';
 export default function MainSection() {
     const isMobile = useMediaQuery('(max-width:900px)');
 
-    //kategorie pobrane z bazy danych
+    //kategorie pobrane z bazy danych - jesli bedzie ich wiecej niz x to wtedy wyswietl je tak jak mobile
     const categories = ["onegfdgdf", "twodsadsa", "three", "dsadxzas", "dsaddsas", "dsadacs", "dsadasdas"]
     const [alignmentCategorie, setAlignmentCategorie] = useState(categories[0] ? categories[0] : null ); //która kategoria ma się wyświetlić w ItemsList
 
@@ -97,6 +97,7 @@ export default function MainSection() {
                     maxWidth: 3000,
                     flexGrow: 1,
                     m:3,
+                    mt:9,
                     p:1
                 }}
             >
