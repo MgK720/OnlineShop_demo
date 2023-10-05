@@ -1,4 +1,4 @@
-import {useState} from "react"
+import {useState, useEffect} from "react"
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -17,10 +17,7 @@ import DesktopMenu from "./Menu/DesktopMenu";
 import SignUpForm from "../Authentication/SignUpForm";
 import Badge from '@mui/material/Badge';
 
-export default function NavBar({isLoggedIn, setIsLoggedIn}) {
-    //Cart - wazne!!! zrobic przycisk juz w dialogu cart do wyczyszczenia koszyka - tak samo jak zlozymy zamowienie to clear cart
-    const [numberOfItemsInCart, setNumberOfItemsInCart] = useState(1);
-    //Pozniej i tak to powyzej wrzucic do jednego duzego useState'a dla wszystkich menuButtonow
+export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, cartItems}) {
     const notAuthenticatedMenu = [
         {
             name: "register",

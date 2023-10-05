@@ -9,86 +9,79 @@ import { Box, Divider } from "@mui/material";
 
 import { useMediaQuery } from '@mui/material';
 
-export default function MainSection() {
+export default function MainSection({isLoggedIn, cartItems,setCartItems, alignmentCategory,categories, setAlignmentCategory, dataFromDB}) {
+    const [numberOfItems, setNumberOfItems] = useState(() => initNumberOfItemsObject(dataFromDB))
+
     const isMobile = useMediaQuery('(max-width:900px)');
 
-    //kategorie pobrane z bazy danych - jesli bedzie ich wiecej niz x to wtedy wyswietl je tak jak mobile
-    const categories = ["onegfdgdf", "twodsadsa", "three", "dsadxzas", "dsaddsas", "dsadacs", "dsadasdas"]
-    const [alignmentCategorie, setAlignmentCategorie] = useState(categories[0] ? categories[0] : null ); //która kategoria ma się wyświetlić w ItemsList
-
+    //handling categories
     const handleChangeCategories = (event, newAlignment) => {
         if(!isMobile){
             if (newAlignment !== null) {
-                setAlignmentCategorie(newAlignment);
+                setAlignmentCategory(newAlignment);
             }
         }else{
-            setAlignmentCategorie(event.target.value);
+            setAlignmentCategory(event.target.value);
         }
     };
 
-    const [dataFromDB, setDataFromDB] = useState([]);
-    useEffect(()=>{
-        //Dane pobrane z db z danej kategorii SELECT * FROM ITEMS WHERE CAT=[alignmentCategorie]; - oczywiscie async func
-        setDataFromDB([
-            {
-                id:1,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
-            {
-                id:2,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
-            {
-                id:3,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
-            {
-                id:4,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
-            {
-                id:5,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
-            {
-                id:6,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
-            {
-                id:7,
-                name:"orange",
-                imgsrc:"https://media.istockphoto.com/id/185284489/pl/zdjęcie/orange.jpg?s=1024x1024&w=is&k=20&c=KwNVeRkCVx5FbCfgUNICV69gkMxfwov6aDTB2HrSnHY=",
-                price: 12.54,
-                quantity: 10,      
-            },
+    //handling cartItems
+    useEffect(() => {
+        setNumberOfItems(initNumberOfItemsObject(dataFromDB));
+      }, [dataFromDB]);
 
-        ])
-    // }, [alignmentCategorie])
-    }, [])
+    const handleChangeNumberOfItems = (evt, quantity) => {
+        const { name, value } = evt.target;
+
+        const numericValue = Number(value);
+
+        if(numericValue > quantity || numericValue < 0){
+            return;
+        }
+        setNumberOfItems((currData) => {
+            return { ...currData, [name]: value };
+        });
+    }
+
+    const addItemToCart = (evt, maxQuantity) => {
+        const buttonId = evt.target.id;
+        const itemId = buttonId.match(/\d+$/)?.pop();
+        const quantity = Number(numberOfItems[`numberOfItems_${itemId}`]) 
+
+        if(!quantity || quantity > maxQuantity){
+            return;
+        }
+
+        setCartItems((currData) => { 
+            const updatedCartItems = [...currData];
+            let itemExists = false;
+
+            for (let i = 0; i < updatedCartItems.length; i++) {
+                if (updatedCartItems[i].itemId === itemId) {
+                    if(updatedCartItems[i].quantity + quantity <= maxQuantity){
+                        updatedCartItems[i].quantity += quantity
+                    }
+                    itemExists = true;
+                    break;
+                }
+            }
+
+            if (!itemExists) {
+                updatedCartItems.push({ itemId, quantity });
+            }
+
+            return updatedCartItems;
+
+            //return [...currData, {itemId: itemId, quantity: quantity} ]
+        })
+    }
+
 
     const renderDesktopCategoryList = (
-        <DesktopCategoryList categories={categories} alignment={alignmentCategorie} handleChange={handleChangeCategories} />
+        <DesktopCategoryList categories={categories} alignment={alignmentCategory} handleChange={handleChangeCategories} />
     )
     const renderMobileCategoryList = (
-        <MobileCategoryList categories={categories} alignment={alignmentCategorie} handleChange={handleChangeCategories} />
+        <MobileCategoryList categories={categories} alignment={alignmentCategory} handleChange={handleChangeCategories} />
     )
     return(
         <Box
@@ -106,9 +99,24 @@ export default function MainSection() {
                     {isMobile ? renderMobileCategoryList : renderDesktopCategoryList} 
                 </Grid>
                 <Grid xs={12} md={10} mdOffset={1}>
-                    <ItemsList dataFromDB={dataFromDB} isMobile={isMobile}/>
+                    <ItemsList dataFromDB={dataFromDB} 
+                                isLoggedIn={isLoggedIn} 
+                                setCartItems={setCartItems} 
+                                addItemToCart={addItemToCart} 
+                                handleChange={handleChangeNumberOfItems} 
+                                numberOfItems={numberOfItems}
+                            />
                 </Grid>
             </Grid>
         </Box>
     );
+}
+
+
+const initNumberOfItemsObject = (data) => {
+    const result = {};
+    data.forEach((data) => {
+        result[`numberOfItems_${data.id}`] = "1"; 
+    });
+    return result;
 }
