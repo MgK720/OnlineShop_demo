@@ -29,7 +29,7 @@ function getStyles(name, value, theme) {
 export default function MobileCategoryList({categories, alignment, handleChange}){
     const theme = useTheme();
     return (
-        <FormControl sx={{ width: 300 }}>
+        <FormControl fullWidth>
             <InputLabel id="categorySelector">Category</InputLabel>
                 <Select
                     labelId='categorySelector'
