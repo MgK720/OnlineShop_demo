@@ -28,7 +28,7 @@ export default function Item({data, isLoggedIn, numberOfItems, handleChange, add
                         sx={{ ml: 0.2, width: '5.5ch' }}
                     />
                 </FormControl>
-                <Button variant="contained" endIcon={<AddShoppingCartIcon/>} id={`add_${data.id}`} onClick={(evt) => addItemToCart(evt, data.name, data.imgsrc, data.quantity)}>
+                <Button variant="contained" endIcon={<AddShoppingCartIcon/>} id={`add_${data.id}`} onClick={(evt) => addItemToCart(evt, data.name, data.imgsrc, data.quantity, data.price)}>
                     Add
                 </Button>
             </CardActions>

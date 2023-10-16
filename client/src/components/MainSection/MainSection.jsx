@@ -43,7 +43,7 @@ export default function MainSection({isLoggedIn, cartItems,setCartItems, alignme
         });
     }
 
-    const addItemToCart = (evt, name, imgsrc, maxQuantity ) => {
+    const addItemToCart = (evt, name, imgsrc, maxQuantity, price ) => {
         const buttonId = evt.target.id;
         const itemId = buttonId.match(/\d+$/)?.pop();
         const quantity = Number(numberOfItems[`numberOfItems_${itemId}`]) 
@@ -67,7 +67,7 @@ export default function MainSection({isLoggedIn, cartItems,setCartItems, alignme
             }
 
             if (!itemExists) {
-                updatedCartItems.push({ itemId, name, imgsrc, quantity, maxQuantity });
+                updatedCartItems.push({ itemId, name, imgsrc, quantity, maxQuantity, price });
             }
 
             return updatedCartItems;

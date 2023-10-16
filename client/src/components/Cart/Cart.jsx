@@ -10,10 +10,11 @@ import CartItemsList from "./CartItemsList"
 
 export default function Cart({open, handleClose, isProfileComplete, cartItems}) {
     return (
-        <Dialog open={open} onClose={handleClose} sx={{p:0, m:0 }}>
+        <Dialog open={open} onClose={handleClose} sx={{p:0, m:0, maxWidth: 'md', }} fullScreen>
             <Box
                 sx={{
-                    maxWidth:1000,
+                    width:"md",
+                    height: 150,
                     flexGrow: 1,
                     m:3,
                     p:1
@@ -24,7 +25,7 @@ export default function Cart({open, handleClose, isProfileComplete, cartItems}) 
                         <Typography variant="h4" textAlign="center" sx={{textTransform:'uppercase'}}>Cart: </Typography>
                         <Divider sx={{mt:1}}/>
                     </Grid>
-                    <Grid container xs={12}>
+                    <Grid xs={12}>
                         <CartItemsList cartItems={cartItems}/>
                     </Grid>
                 </Grid>
