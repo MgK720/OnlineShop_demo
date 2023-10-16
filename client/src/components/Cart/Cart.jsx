@@ -15,7 +15,7 @@ export default function Cart({open, handleClose, isProfileComplete, cartItems}) 
             <Box
                 sx={{
                     width:"md",
-                    height: 500,
+                    height: 700,
                     flexGrow: 1,
                     m:3,
                     p:1
