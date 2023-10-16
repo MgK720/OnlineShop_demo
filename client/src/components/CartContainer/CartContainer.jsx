@@ -75,7 +75,7 @@ export default function CartContainer(){
 
     return (
     <>
-        <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length}/>
+        <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems}/>
         <MainSection isLoggedIn={isLoggedIn} 
             setCartItems={setCartItems} 
             cartItems={cartItems}

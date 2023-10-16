@@ -6,9 +6,9 @@ import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button'
 import Alert from '@mui/material/Alert'
 import { useEffect, useState } from "react";
+import CartItemsList from "./CartItemsList"
 
 export default function Cart({open, handleClose, isProfileComplete, cartItems}) {
-    
     return (
         <Dialog open={open} onClose={handleClose} sx={{p:0, m:0 }}>
             <Box
@@ -23,6 +23,9 @@ export default function Cart({open, handleClose, isProfileComplete, cartItems}) 
                     <Grid xs={12}>
                         <Typography variant="h4" textAlign="center" sx={{textTransform:'uppercase'}}>Cart: </Typography>
                         <Divider sx={{mt:1}}/>
+                    </Grid>
+                    <Grid container xs={12}>
+                        <CartItemsList cartItems={cartItems}/>
                     </Grid>
                 </Grid>
             </Box>
