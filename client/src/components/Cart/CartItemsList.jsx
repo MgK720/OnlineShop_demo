@@ -4,10 +4,13 @@ import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography"
 
 export default function CartItemsList({cartItems}){
+    //pobrac unit zł/dolar itp...
     return(
         <Box>
             {cartItems.map((elem) => {
                 return <Grid container spacing={3}  xs={12} sx={{
+                        m:2,
+                        ml:-0.4,
                         flexGrow: 1,
                         textAlign: 'center',
                         justifyContent: 'center',
@@ -23,16 +26,16 @@ export default function CartItemsList({cartItems}){
                                 />
                             </Grid> 
                             <Grid item xs={12} md={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <Typography>Name: {elem.name}</Typography>
+                                <Typography variant='h5'>Name: {elem.name}</Typography>
                             </Grid>
                             <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
-                                <Typography>Quantity: {elem.quantity}</Typography>
+                                <Typography variant='h5'>Quantity: {elem.quantity}</Typography>
                             </Grid>
                             <Grid item xs={12} md={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
-                                <Typography>Price: {elem.price}</Typography>
+                                <Typography variant='h5'>Price: {elem.price} $</Typography>
                             </Grid>
                             <Grid item xs={12} md={3} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center'  }}>
-                                <Typography>Total Price: {elem.price}</Typography>
+                                <Typography variant='h5'>Total Price: {elem.price * elem.quantity} $</Typography>
                             </Grid>
                             <Grid item xs={12}><Divider/></Grid>
                     </Grid>
