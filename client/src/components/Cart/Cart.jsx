@@ -1,0 +1,31 @@
+import { Dialog, TextField } from "@mui/material"
+import Box from "@mui/material/Box"
+import Typography from "@mui/material/Typography"
+import Divider from "@mui/material/Divider"
+import Grid from '@mui/material/Unstable_Grid2';
+import Button from '@mui/material/Button'
+import Alert from '@mui/material/Alert'
+import { useEffect, useState } from "react";
+
+export default function Cart({open, handleClose, isProfileComplete, cartItems}) {
+    
+    return (
+        <Dialog open={open} onClose={handleClose} sx={{p:0, m:0 }}>
+            <Box
+                sx={{
+                    maxWidth:1000,
+                    flexGrow: 1,
+                    m:3,
+                    p:1
+                }}
+            >
+                <Grid container spacing={2}>
+                    <Grid xs={12}>
+                        <Typography variant="h4" textAlign="center" sx={{textTransform:'uppercase'}}>Cart: </Typography>
+                        <Divider sx={{mt:1}}/>
+                    </Grid>
+                </Grid>
+            </Box>
+        </Dialog>
+    );
+}

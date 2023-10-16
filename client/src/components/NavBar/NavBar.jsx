@@ -16,6 +16,7 @@ import MobileMenu from "./Menu/MobileMenu";
 import DesktopMenu from "./Menu/DesktopMenu";
 import SignUpForm from "../Authentication/SignUpForm";
 import Badge from '@mui/material/Badge';
+import Cart from "../Cart/Cart";
 
 export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, cartItems}) {
     const notAuthenticatedMenu = [
@@ -52,7 +53,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
         {
             name: "cart",
             onClick: () => {
-                () => {};
+                openCartDialog()
             },
             icon: <Badge badgeContent={numberOfItemsInCart} color="warning"><ShoppingCartIcon/></Badge>
         },
@@ -122,6 +123,14 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
     const handleCloseProfile = () =>{
         setOpenProfile(false);
     }
+    //Cart 
+    const [openCart, setOpenCart] = useState(false);
+    const openCartDialog = () =>{
+        setOpenCart(true);
+    }
+    const handleCloseCartDialog = () =>{
+        setOpenCart(false);
+    }
     return (
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="fixed">
@@ -136,6 +145,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
             <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
             <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
             <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete}/>
+            <Cart open={openCart} handleClose={handleCloseCartDialog} isProfileComplete={isProfileComplete} cartItems={cartItems}/>
         </Box>
     );
 }
