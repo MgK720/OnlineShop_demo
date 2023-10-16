@@ -4,7 +4,7 @@ import Divider from '@mui/material/Divider';
 import Typography from "@mui/material/Typography"
 
 export default function CartItemsList({cartItems}){
-    //pobrac unit zł/dolar itp...
+    //pobrac unit zł/dolar itp... + zaokrąglić totalPrice
     //moze przerobic to i dać tytuly np Name, Quantity jako tytuły kolumn i wtedy na mobile wyswietlac tak jak jest aktualnie
     return(
         <Box>
