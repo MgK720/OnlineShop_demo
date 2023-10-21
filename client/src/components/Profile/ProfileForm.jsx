@@ -106,7 +106,8 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
     })
     //tutaj jeszcze useEffectem ustawiamy za kazdym razem gdy otwieramy dialog (zalezne od state'a open) - jakie dane maja sie wstawic w pola - pobrane z bazy danych
     useEffect(() =>{
-        const dataFromDB = ["Tom", "Statham", "434343434", "New York", "121-22121", "newroad", "123/2d"]
+        // const dataFromDB = ["Tom", "Statham", "434343434", "New York", "121-22121", "newroad", "123/2d"]
+        const dataFromDB = 0;
         if(dataFromDB){
             setData((currData) => {
                 return{

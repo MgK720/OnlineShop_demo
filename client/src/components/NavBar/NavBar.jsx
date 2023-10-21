@@ -18,7 +18,7 @@ import SignUpForm from "../Authentication/SignUpForm";
 import Badge from '@mui/material/Badge';
 import Cart from "../Cart/Cart";
 
-export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, cartItems}) {
+export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, cartItems, setCartItems}) {
     const notAuthenticatedMenu = [
         {
             name: "register",
@@ -145,7 +145,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
             <SignInForm open={openSignIn} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
             <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
             <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete}/>
-            <Cart open={openCart} handleClose={handleCloseCartDialog} isProfileComplete={isProfileComplete} cartItems={cartItems}/>
+            <Cart open={openCart} handleClose={handleCloseCartDialog} isProfileComplete={isProfileComplete} cartItems={cartItems} setCartItems={setCartItems}/>
         </Box>
     );
 }
