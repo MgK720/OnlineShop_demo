@@ -1,0 +1,13 @@
+DROP TABLE IF EXISTS shop_order;
+
+DROP TABLE IF EXISTS order_status;
+
+DROP TABLE IF EXISTS item;
+
+DROP TABLE IF EXISTS item_category;
+
+DROP TABLE IF EXISTS account;
+
+DROP TABLE IF EXISTS account_type;
+
+DROP TABLE IF EXISTS profile;
