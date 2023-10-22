@@ -52,10 +52,12 @@ CREATE TABLE order_status(
 
 CREATE TABLE shop_order(
     order_id serial,
-    order_status_id int not null,
+    account_id int not null,
+    order_status_id int not null DEFAULT 0,
     order_startdate TIMESTAMPTZ DEFAULT Now(), /* when status == 0 */
     order_enddate TIMESTAMPTZ DEFAULT null, /* when status == 2 */
     CONSTRAINT order_pk PRIMARY KEY(order_id),
+    CONSTRAINT order_account_fk FOREIGN KEY(account_id) REFERENCES account(account_id) ON DELETE CASCADE,
     CONSTRAINT order_order_status_fk FOREIGN KEY(order_status_id) REFERENCES order_status(order_status_id)
 );
 
