@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import Item from "./Item";
 import Box from "@mui/material/Box";
+import Grow from "@mui/material/Grow";
 import Skeleton from "@mui/material/Skeleton";
+import Card from "@mui/material/Card";
 
 export default function ItemsList({
   dataFromDB,
@@ -19,12 +21,33 @@ export default function ItemsList({
     }
   }, [dataFromDB]);
 
+  const renderItems = () => {
+    const delay = 200;
+    return dataFromDB.map((elem, index) => (
+      <Grid xs={12} xl={2} lg={3} md={3} sm={6} key={elem.id}>
+        <Grow
+          in={!isLoading}
+          timeout={delay * (index + 1)}
+          transformOrigin={"left"}
+        >
+          <div>
+            <Item
+              data={elem}
+              isLoggedIn={isLoggedIn}
+              numberOfItems={numberOfItems}
+              handleChange={handleChange}
+              addItemToCart={addItemToCart}
+            />
+          </div>
+        </Grow>
+      </Grid>
+    ));
+  };
   //https://mui.com/material-ui/transitions/
   return (
     <Grid container spacing={2} sx={{ mt: 1 }}>
       {isLoading
-        ? // Render skeletons while data is loading
-          Array.from({ length: 10 }).map((_, index) => (
+        ? Array.from({ length: 12 }).map((_, index) => (
             <Grid
               xs={12}
               xl={2}
@@ -34,12 +57,11 @@ export default function ItemsList({
               key={index}
               sx={{ textAlign: "center" }}
             >
-              <Box
+              <Card
                 sx={{
                   display: "flex",
-                  flexDirection: "row",
-                  flexWrap: "wrap",
                   justifyContent: "center",
+                  flexWrap: "wrap",
                   alignItems: "center",
                 }}
               >
@@ -54,32 +76,21 @@ export default function ItemsList({
                   variant="rounded"
                   width="40%"
                   height={40}
-                  sx={{ m: 1, mt: 0 }}
+                  sx={{ m: 1, mt: 0, mb: 2 }}
                 />
                 <Skeleton
                   variant="rounded"
                   width="40%"
                   height={40}
-                  sx={{ m: 1, mt: 0 }}
+                  sx={{ m: 1, mt: 0, mb: 2 }}
                 />
                 {isLoggedIn ? (
                   <Skeleton variant="rectangular" width="100%" height={50} />
                 ) : null}
-              </Box>
+              </Card>
             </Grid>
           ))
-        : // Render actual data once it's available
-          dataFromDB.map((elem) => (
-            <Grid xs={12} xl={2} lg={3} md={3} sm={6} key={elem.id}>
-              <Item
-                data={elem}
-                isLoggedIn={isLoggedIn}
-                numberOfItems={numberOfItems}
-                handleChange={handleChange}
-                addItemToCart={addItemToCart}
-              />
-            </Grid>
-          ))}
+        : renderItems()}
     </Grid>
   );
 }
