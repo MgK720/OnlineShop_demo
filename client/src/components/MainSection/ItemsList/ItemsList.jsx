@@ -22,7 +22,7 @@ export default function ItemsList({
   }, [dataFromDB]);
 
   const renderItems = () => {
-    const delay = 200;
+    const delay = 350;
     return dataFromDB.map((elem, index) => (
       <Grid xs={12} xl={2} lg={3} md={3} sm={6} key={elem.id}>
         <Grow
@@ -43,54 +43,50 @@ export default function ItemsList({
       </Grid>
     ));
   };
+  const renderSkeletons = () => {
+    return Array.from({ length: 12 }).map((_, index) => (
+      <Grid
+        xs={12}
+        xl={2}
+        lg={3}
+        md={3}
+        sm={6}
+        key={index}
+        sx={{ textAlign: "center" }}
+      >
+        <Card
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
+          <Skeleton variant="rectangular" width="100%" height={200} />
+          <Skeleton variant="rounded" width="70%" height={50} sx={{ m: 1.5 }} />
+          <Skeleton
+            variant="rounded"
+            width="40%"
+            height={40}
+            sx={{ m: 1, mt: 0, mb: 2 }}
+          />
+          <Skeleton
+            variant="rounded"
+            width="40%"
+            height={40}
+            sx={{ m: 1, mt: 0, mb: 2 }}
+          />
+          {isLoggedIn ? (
+            <Skeleton variant="rectangular" width="100%" height={50} />
+          ) : null}
+        </Card>
+      </Grid>
+    ));
+  };
   //https://mui.com/material-ui/transitions/
   return (
     <Grid container spacing={2} sx={{ mt: 1 }}>
-      {isLoading
-        ? Array.from({ length: 12 }).map((_, index) => (
-            <Grid
-              xs={12}
-              xl={2}
-              lg={3}
-              md={3}
-              sm={6}
-              key={index}
-              sx={{ textAlign: "center" }}
-            >
-              <Card
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                }}
-              >
-                <Skeleton variant="rectangular" width="100%" height={200} />
-                <Skeleton
-                  variant="rounded"
-                  width="70%"
-                  height={50}
-                  sx={{ m: 1.5 }}
-                />
-                <Skeleton
-                  variant="rounded"
-                  width="40%"
-                  height={40}
-                  sx={{ m: 1, mt: 0, mb: 2 }}
-                />
-                <Skeleton
-                  variant="rounded"
-                  width="40%"
-                  height={40}
-                  sx={{ m: 1, mt: 0, mb: 2 }}
-                />
-                {isLoggedIn ? (
-                  <Skeleton variant="rectangular" width="100%" height={50} />
-                ) : null}
-              </Card>
-            </Grid>
-          ))
-        : renderItems()}
+      {isLoading ? renderSkeletons() : renderItems()}
     </Grid>
   );
 }
