@@ -28,7 +28,7 @@ export default function ItemsList({
         <Grow
           in={!isLoading}
           timeout={delay * (index + 1)}
-          transformOrigin={"left"}
+          transformorigin={"left"}
         >
           <div>
             <Item
