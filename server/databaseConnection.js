@@ -4,6 +4,15 @@ require('dotenv').config({ debug: process.env.DEBUG });
 
 var client = new pg.Client(process.env.DB_URL);
 
+// for local connection
+// const client = new Client({
+//     host: 'my.database-server.com',
+//     port: 5334,
+//     database: 'database-name',
+//     user: 'database-user',
+//     password: 'secretpassword!!',
+// })
+
 client.connect(function(err) {
   if(err) {
     return console.error('could not connect to postgres', err);

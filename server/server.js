@@ -2,17 +2,8 @@ const express = require('express')
 const cors = require('cors');
 const bodyParser = require('body-parser')
 const app = express()
-const client = require('./databaseConnection');
+const itemsRoutes = require('./src/routes/items')
 const port = 3000
-
-const queryTest = async () => {
-    try{
-        const results = await client.query('SELECT * FROM order_status');
-        console.log(results.rows)
-    }catch (err) {
-        console.log(err);
-    }
-}
 
 app.use(cors({
     origin: 'http://localhost:5173', 
@@ -26,10 +17,19 @@ app.get("/getmsg", (req, res) => {
     res.json({ message: "Hello from Express!" });
 });
 
-queryTest();
-
-   
+app.use("/items", itemsRoutes);
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })
+
+
+// const client = require('./databaseConnection');
+// app.get("/conTest", async (req,res) => {
+//     try{
+//         const results = await client.query('SELECT * FROM order_status');
+//         res.json(results.rows)
+//     }catch (err) {
+//         console.log(err);
+//     }
+// })

@@ -37,7 +37,7 @@ CREATE TABLE item(
     item_id serial,
     item_name varchar(20) not null,
     item_category_id int,
-    item_imgsrc varchar(100) not null,
+    item_imgsrc varchar(200) not null,
     item_price int not null,
     item_quantity int not null,
     CONSTRAINT item_pk PRIMARY KEY(item_id),
