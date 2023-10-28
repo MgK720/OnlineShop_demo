@@ -23,6 +23,7 @@ const MenuProps = {
 };
 
 function getStyles(name, value, theme) {
+  if(value){
     return {
       fontWeight:
         value.indexOf(name) === -1
@@ -30,17 +31,15 @@ function getStyles(name, value, theme) {
           : theme.typography.fontWeightMedium,
     };
   }
+}
 
 export default function MobileCategoryList({categories, alignment, handleChange}){
     const theme = useTheme();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-      //Todo wywalić tego setTimeouta gdy podepne się pod baze danych
       if (categories.length > 0) {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1000)
+        setIsLoading(false);
       }
     }, [categories]); 
 

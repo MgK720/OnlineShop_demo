@@ -11,11 +11,8 @@ export default function CategoryList({categories, alignment, handleChange}){
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
-      //Todo wywalić tego setTimeouta gdy podepne się pod baze danych
       if (categories.length > 0) {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 1000)
+        setIsLoading(false);
       }
     }, [categories]); 
 

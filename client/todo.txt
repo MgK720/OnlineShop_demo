@@ -1,2 +1,6 @@
 1. Maxlength dla wszystkich inputów w ProfileForm i SignUp/SignIn
 2. Koszyk - wyswietlanie koszyka + opcja wyczysc koszyk (w przyszlosci pamietac o zapisywaniu stanu koszyka w cookies)
+
+
+
+3. Połączenie z cloudinary !!!

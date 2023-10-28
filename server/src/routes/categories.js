@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const items = require("../controllers/items")
+const categories = require("../controllers/categories")
 
-router.get('/:category', (req, res) => {
+router.get('/', (req, res) => {
     try {
-        items.getItemsByCategory(req, res);
+        categories.getAllCategories(req, res); 
     } catch (e) {
         console.log(e);
         res.status(500).json({ error: 'Internal server error' });

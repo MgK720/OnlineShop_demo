@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const app = express()
 const itemsRoutes = require('./src/routes/items')
+const categoriesRoutes = require('./src/routes/categories')
 const port = 3000
 
 app.use(cors({
@@ -18,6 +19,7 @@ app.get("/getmsg", (req, res) => {
 });
 
 app.use("/items", itemsRoutes);
+app.use("/categories", categoriesRoutes)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

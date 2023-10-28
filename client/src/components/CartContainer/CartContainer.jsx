@@ -13,19 +13,24 @@ export default function CartContainer(){
 
     //OLD MainSection - lifting states up
     //kategorie pobrane z bazy danych - jesli bedzie ich wiecej niz x to wtedy wyswietl je tak jak mobile
-    const categories = ["fruits", "vegetables", "three", "dsadxzas", "dsaddsas", "dsadacs", "dsadasdas"]
-    const [alignmentCategory, setAlignmentCategory] = useState(categories[0] ? categories[0] : null ); //która kategoria ma się wyświetlić w ItemsList
-
-    const [testdbData, setTestdbData] = useState({});
-
-    const fetchDataFromDB = async (category) => {
-        try{
-            const {data} = await axios.get(`/items/${category}`)
-            setTestdbData(data)
-        }catch(e){
-            console.error(e)
+    //const categories = ["fruits", "vegetables", "three", "dsadxzas", "dsaddsas", "dsadacs", "dsadasdas"]
+    const [categoriesFromDB, setCategoriesFromDB] = useState([]);
+    useEffect(() => {
+        const fetchCategoriesFromDB = async () => {
+            try{
+                const {data} = await axios.get(`/categories`)
+                setCategoriesFromDB(data)
+            }catch(e){
+                console.error(e);
+            }
         }
-    }
+        fetchCategoriesFromDB();
+    }, [])
+
+    const [alignmentCategory, setAlignmentCategory] = useState(categoriesFromDB[0] ? categoriesFromDB[0] : null ); 
+    useEffect(() => {
+        setAlignmentCategory(categoriesFromDB[0]);
+    }, [categoriesFromDB])
 
     const [dataFromDB, setDataFromDB] = useState([]);
     useEffect(()=>{
@@ -37,10 +42,41 @@ export default function CartContainer(){
                 console.error(e)
             }
         }
-        //Dane pobrane z db z danej kategorii SELECT * FROM ITEMS WHERE CAT=[alignmentCategory]; - oczywiscie async func
         fetchDataFromDB(alignmentCategory);
-        console.log(dataFromDB);
-        // setDataFromDB([
+    }, [alignmentCategory])
+
+    return (
+    <>
+        <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems}/>
+        <MainSection isLoggedIn={isLoggedIn} 
+            setCartItems={setCartItems} 
+            cartItems={cartItems}
+            categories={categoriesFromDB}
+            alignmentCategory={alignmentCategory}
+            setAlignmentCategory={setAlignmentCategory}
+            dataFromDB={dataFromDB}
+            />
+    </>
+  )
+}
+
+
+
+
+    {/* <Typography variant="h1">{data.message}</Typography> */}
+  // const [count, setCount] = useState(0)
+  // const [data,setData] = useState({message: ""});
+
+  // useEffect(() => {
+  //   fetchMsgFromDB();
+  // }, []);
+  // const fetchMsgFromDB = async () => {
+  //   const { data } = await axios.get("/getmsg")
+  //   setData({message: [data.message]})
+  // }
+
+
+  // setDataFromDB([
         //     {
         //         id:1,
         //         name:"orange",
@@ -91,34 +127,3 @@ export default function CartContainer(){
         //         quantity: 13,      
         //     },
         // ])
-    }, [alignmentCategory])
-
-    return (
-    <>
-        <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems}/>
-        <MainSection isLoggedIn={isLoggedIn} 
-            setCartItems={setCartItems} 
-            cartItems={cartItems}
-            categories={categories}
-            alignmentCategory={alignmentCategory}
-            setAlignmentCategory={setAlignmentCategory}
-            dataFromDB={dataFromDB}
-            />
-    </>
-  )
-}
-
-
-
-
-    {/* <Typography variant="h1">{data.message}</Typography> */}
-  // const [count, setCount] = useState(0)
-  // const [data,setData] = useState({message: ""});
-
-  // useEffect(() => {
-  //   fetchMsgFromDB();
-  // }, []);
-  // const fetchMsgFromDB = async () => {
-  //   const { data } = await axios.get("/getmsg")
-  //   setData({message: [data.message]})
-  // }
