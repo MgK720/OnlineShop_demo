@@ -6,7 +6,7 @@ const register = async (request,response)=>{
         const { login, password, passwordRep } = request.body;
         console.log(password, passwordRep);
         if(password !== passwordRep){
-            response.status(400).json({error: true ,msg: 'Repeated password is not the same'})
+            response.json({error: true ,msg: 'Repeated password is not the same'})
             throw 'Repeated password is not the same';
         }
         const loginExists = await isLoginExists(login);
@@ -15,18 +15,17 @@ const register = async (request,response)=>{
             try{
                 const insertQuery = await client.query('Insert Into account(account_id, account_type_id, login, password) Values (default, 0, $1, $2)', [login, hashedPassword] );
             }catch(e){
-                response.status(500),json({error: true ,msg: 'Internal server error'})
+                response.json({error: true ,msg: 'Internal server error'})
                 throw e;
             }
             console.log(`New account registered - ${login}`);
             response.json({error: false ,msg: 'Account created'})
         }else{
-            response.status(400).json({error: true ,msg: 'User with this login already exists'})
+            response.json({error: true ,msg: 'User with this login exists'})
             throw 'User with this login already exists';
         }
     }catch (error){
         console.error(error);
-        response.status(500).json({ error: true, msg: 'Internal server error' });
     }
   }
 

@@ -50,6 +50,7 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
 
     const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
+    const [registerResponse, setRegisterResponse] = useState({})
     const signUp = async () => {
         const noErrors = !inputError.login && !inputError.password && !inputError.passwordRep;
         const allRequiredDataFilled = registerData.login && registerData.password && registerData.passwordRep 
@@ -61,17 +62,25 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
           }catch(e){
             console.error(e);
           }
+          setRegisterResponse(data);
           data.error === false ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
+          console.log(signUpError)
         }
       }
     
+    const signUpAlert = (registerResponse) => (
+        <Alert severity={registerResponse.error ? 'error' : 'success'} sx={{mt:2}}>{registerResponse.msg}</Alert>
+    )
 
-    const signUpErrorAlert = () => (
-        <Alert severity="error" sx={{mt:2}}>Sign up Failed - incorrect data</Alert>
-    )
-    const signUpSuccessAlert = () => (
-        <Alert severity="success" sx={{mt:2}}>Account created !!!</Alert>
-    )
+    // const signUpErrorAlert = (registerAlertMsg) => (
+    //     // <Alert severity="error" sx={{mt:2}}>Sign up Failed - incorrect data</Alert>
+    //     <Alert severity="error" sx={{mt:2}}>{registerAlertMsg}</Alert>
+    // )
+    // const signUpSuccessAlert = (registerAlertMsg) => (
+    //     // <Alert severity="success" sx={{mt:2}}>Account created !!!</Alert>
+    //     <Alert severity="success" sx={{mt:2}}>{registerAlertMsg}</Alert>
+    // )
+    
     return(
         <Dialog open={open} onClose={handleClose} sx={{p:0, m:0 }}>
             <Box
@@ -93,7 +102,8 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
                 <PasswordFormControl inputError={inputError.password} passwordState={registerData.password} handleChange={handleChange} nonMb={true}/>
                 <PasswordFormControl inputError={inputError.passwordRep} errorMsg={inputError.errorMsg} passwordState={registerData.passwordRep} handleChange={handleChange} inputName="passwordRep" label="Confirm-Password"/>
                 <Button variant="contained" fullWidth onClick={signUp} disabled={isDataNotFilled}>Register</Button>
-                {signUpError.signUpTry && (signUpError.error ? <div>{signUpErrorAlert()}</div> : <div>{signUpSuccessAlert()}</div>) }
+                {/* {signUpError.signUpTry && (signUpError.error ? <div>{signUpErrorAlert(registerAlertMsg)}</div> : <div>{signUpSuccessAlert(registerAlertMsg)}</div>) } */}
+                {signUpError.signUpTry ? signUpAlert(registerResponse) : null } 
             </Box>
         </Dialog>
     );
