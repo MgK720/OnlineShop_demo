@@ -4,22 +4,46 @@ const bodyParser = require('body-parser')
 const app = express()
 const itemsRoutes = require('./src/routes/items')
 const categoriesRoutes = require('./src/routes/categories')
+const authRoutes = require('./src/routes/auth')
+
+const session = require('express-session')
+const passport = require('passport');
+
 const port = 3000
+
+app.use(session({
+    secret: 'thatsecretthinggoeshere',
+    resave: false,
+    saveUninitialized: true
+  }));
 
 app.use(cors({
     origin: 'http://localhost:5173', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, 
 }))
+
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); 
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get("/getmsg", (req, res) => {
-    res.json({ message: "Hello from Express!" });
-});
+passport.serializeUser(function(user, done) {
+    done(null, user);
+  });
+  
+  passport.deserializeUser(function(user, done) {
+    done(null, user);
+  });
+
+// app.get("/getmsg", (req, res) => {
+//     res.json({ message: "Hello from Express!" });
+// });
 
 app.use("/items", itemsRoutes);
 app.use("/categories", categoriesRoutes)
+// TODO - gdy zalogowany to nie ma możliwośći wejścia pod te routy
+app.use('/auth', authRoutes)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

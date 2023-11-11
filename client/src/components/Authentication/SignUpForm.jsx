@@ -1,3 +1,4 @@
+import axios from "axios";
 import Box from '@mui/material/Box';
 import {useState, useEffect} from "react"
 import { Dialog, Typography, Divider } from '@mui/material';
@@ -49,14 +50,21 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
 
     const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
-    const signUp = () => {
+    const signUp = async () => {
         const noErrors = !inputError.login && !inputError.password && !inputError.passwordRep;
         const allRequiredDataFilled = registerData.login && registerData.password && registerData.passwordRep 
         if(noErrors && allRequiredDataFilled ){
-          const responseOK = 1; //1 - done
-          responseOK ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
+          let data = {};
+          try{
+            data = (await axios.post(`/auth/register`, {login: registerData.login, password: registerData.password, passwordRep: registerData.passwordRep })).data;
+            console.log(data);
+          }catch(e){
+            console.error(e);
+          }
+          data.error === false ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
         }
       }
+    
 
     const signUpErrorAlert = () => (
         <Alert severity="error" sx={{mt:2}}>Sign up Failed - incorrect data</Alert>

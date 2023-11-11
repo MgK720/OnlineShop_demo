@@ -7,7 +7,6 @@ export default function CartContainer(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     //Tutaj useEffect za pierwszym renderem - sprawdzenie czy jestem zalogowany jak tak to setIsLoggedIn(true) - todo sprawdzic czy to dziala - za kazdym zalogowaniem zrob init wszystkich state'ów (???)
     
-    //Cart - wazne!!! zrobic przycisk juz w dialogu cart do wyczyszczenia koszyka - tak samo jak zlozymy zamowienie to clear cart
     const [cartItems, setCartItems] = useState([])
     console.log(cartItems);
 

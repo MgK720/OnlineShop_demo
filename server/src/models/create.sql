@@ -1,15 +1,3 @@
-CREATE TABLE profile(
-    profile_id serial,
-    firstname varchar(20) not null,
-    lastname varchar(20) not null,
-    phone_number varchar(30) not null,
-    city varchar(20) not null,
-    zipCode varchar(15) not null,
-    street varchar(20) not null,
-    houseNumber varchar(10) not null,
-    CONSTRAINT profile_pk PRIMARY KEY(profile_id)
-);
-
 CREATE TABLE account_type(
     account_type_id serial, /* 0 - user, 1 - shop owner */
     account_type_name varchar(20), 
@@ -18,13 +6,25 @@ CREATE TABLE account_type(
 
 CREATE TABLE account(
     account_id serial,
-    account_type_id int not null UNIQUE,
-    profile_id int UNIQUE,
+    account_type_id int not null,
     login varchar(20) not null UNIQUE CHECK (LENGTH(login) > 7), 
     password varchar(255) not null CHECK (LENGTH(password) > 7),
     CONSTRAINT account_pk PRIMARY KEY(account_id),
-    CONSTRAINT account_profile_fk FOREIGN KEY(profile_id) REFERENCES profile(profile_id) ON DELETE SET NULL,
     CONSTRAINT account_account_type_fk FOREIGN KEY(account_type_id) REFERENCES account_type(account_type_id) ON DELETE SET NULL
+);
+
+CREATE TABLE profile(
+    profile_id serial,
+    account_id int not null UNIQUE,
+    firstname varchar(20) not null,
+    lastname varchar(20) not null,
+    phone_number varchar(30) not null,
+    city varchar(20) not null,
+    zipCode varchar(15) not null,
+    street varchar(20) not null,
+    houseNumber varchar(10) not null,
+    CONSTRAINT profile_pk PRIMARY KEY(profile_id),
+    CONSTRAINT profile_account_fk FOREIGN KEY(account_id) REFERENCES account(account_id) ON DELETE CASCADE
 );
 
 CREATE TABLE item_category(
