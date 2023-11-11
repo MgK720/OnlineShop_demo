@@ -11,17 +11,17 @@ const passport = require('passport');
 
 const port = 3000
 
-app.use(session({
-    secret: 'thatsecretthinggoeshere',
-    resave: false,
-    saveUninitialized: true
-  }));
-
 app.use(cors({
     origin: 'http://localhost:5173', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true, 
 }))
+
+app.use(session({
+    secret: 'thatsecretthinggoeshere',
+    resave: false,
+    saveUninitialized: true
+  }));
 
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); 
@@ -32,8 +32,14 @@ passport.serializeUser(function(user, done) {
     done(null, user);
   });
   
-  passport.deserializeUser(function(user, done) {
+passport.deserializeUser(function(user, done) {
     done(null, user);
+  });
+
+app.use((req, res, next) => {
+    console.log(req.isAuthenticated())
+    res.locals.user = req.user;
+    next();
   });
 
 // app.get("/getmsg", (req, res) => {

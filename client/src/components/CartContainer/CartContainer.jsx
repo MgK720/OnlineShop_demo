@@ -5,6 +5,40 @@ import { useEffect, useState } from 'react'
 
 export default function CartContainer(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [user, setUser] = useState({});
+    useEffect(() => {
+        console.log(user);
+    }, [user])
+    // useEffect(() => {
+    //     const checkLoginStatus = async () => {
+    //         try{
+    //             const {data} = await axios.get(`/auth/isloggedin`)
+    //             if(data.status === true){
+    //                 setUser(data.user)
+    //             }
+    //             console.log(user);
+    //         }catch(e){
+    //             console.error(e)
+    //         }
+    //     }
+    //     checkLoginStatus();
+    // }, [])
+    // useEffect(() => {
+    //     const checkLoginStatus = async () => {
+    //         try{
+    //             const {data} = await axios.get(`/auth/isloggedin`)
+    //             if(data.status === true){
+    //                 setUser(data.user)
+    //             }
+    //         }catch(e){
+    //             console.error(e)
+    //         }
+    //         console.log(user);
+    //     }
+    //     checkLoginStatus();
+    // }, [isLoggedIn])
+
+    //tutaj useEffectem sprawdzic sesje czy jestem zalogowany jesli tak to setIsLoggedIn(true) i setUser(id,login)
     //Tutaj useEffect za pierwszym renderem - sprawdzenie czy jestem zalogowany jak tak to setIsLoggedIn(true) - todo sprawdzic czy to dziala - za kazdym zalogowaniem zrob init wszystkich state'ów (???)
     
     const [cartItems, setCartItems] = useState([])
@@ -46,7 +80,7 @@ export default function CartContainer(){
 
     return (
     <>
-        <NavBar isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems}/>
+        <NavBar isLoggedIn={isLoggedIn} setUser={setUser} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems}/>
         <MainSection isLoggedIn={isLoggedIn} 
             setCartItems={setCartItems} 
             cartItems={cartItems}

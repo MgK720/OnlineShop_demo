@@ -1,3 +1,4 @@
+import axios from "axios";
 import Box from '@mui/material/Box';
 import {useState, useEffect} from "react"
 import { Dialog, Typography, Divider } from '@mui/material';
@@ -6,7 +7,7 @@ import Alert from '@mui/material/Alert';
 import PasswordFormControl from './FormControls/PasswordFormControl';
 import LoginFormControl from './FormControls/LoginFormControl';
 
-export default function SignInForm({open, handleClose, signInError, setSignInError}){
+export default function SignInForm({open, setUser, handleClose, signInError, setSignInError}){
     const initData = {
         login: "",
         password: ""
@@ -40,12 +41,19 @@ export default function SignInForm({open, handleClose, signInError, setSignInErr
    
     const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
-    const signIn = () => {
+    const signIn = async () => {
       const noErrors = !inputError.login && !inputError.password;
       const allRequiredDataFilled = loginData.login && loginData.password
       if(noErrors && allRequiredDataFilled){
-        const responseOK = 1; //1 - done
-        responseOK ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
+        let data = {};
+          try{
+            data = (await axios.post(`/auth/login`, {login: loginData.login, password: loginData.password })).data;
+            console.log(data);
+          }catch(e){
+            console.error(e);
+          }
+          setUser(data.user);
+          data.error === false ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
       }
     }
 

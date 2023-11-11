@@ -16,12 +16,22 @@ router.post('/register', (req, res) => {
 
 router.post("/login", function(req,res,next){passport.authenticate("local-login", function(err,user,info){
     if(err){ next(err); }
-    if(!user){ return res.status(400).json({error: true, msg: "Invalid username or password"}); }
+    if(!user){ return res.json({error: true, msg: "Invalid username or password"}); }
     req.logIn(user,function(err){
       if(err){ return next(err) }
-      return res.json({error: false, msg: "signed in"});
+      return res.json({error: false, msg: "signed in", user: user});
     });
   })(req,res,next)
 });
+
+router.get("/isloggedin", (req,res) => {
+    console.log(req.user);
+    if (req.user) {
+        res.json({status: true, user: req.user})
+    }else {
+        res.json({status: false})
+    }
+})
+
 
 module.exports = router;

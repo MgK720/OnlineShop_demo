@@ -9,7 +9,7 @@ import { Box, Divider } from "@mui/material";
 
 import { useMediaQuery } from '@mui/material';
 
-export default function MainSection({isLoggedIn, cartItems,setCartItems, alignmentCategory,categories, setAlignmentCategory, dataFromDB}) {
+export default function MainSection({isLoggedIn, cartItems,setCartItems,setUser, alignmentCategory,categories, setAlignmentCategory, dataFromDB}) {
     const [numberOfItems, setNumberOfItems] = useState(() => initNumberOfItemsObject(dataFromDB))
 
     const isMobile = useMediaQuery('(max-width:900px)');
