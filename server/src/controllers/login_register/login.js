@@ -1,33 +1,29 @@
-const bcrypt = require('bcrypt');
-const { isLoginExists } = require('./register.js')
-const LocalStrategy = require("passport-local");
 const client = require('../../../databaseConnection');
+const passport = require('passport');
+const passportJWT = require('passport-jwt');
+const JwtStrategy = passportJWT.Strategy;
 
+const { jwtOptions } = require('../../config/jwtOptions')
 
-const matchPassword = async(password, hashedPassword) =>{
-    const result = await bcrypt.compare(password, hashedPassword);
-    return result;
-}
+const jwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
+  try {
+    const result = await client.query('SELECT * FROM account WHERE account_id=$1', [payload.id]);
+    const user = result.rows[0];
 
-module.exports = (passport) => {
-    passport.use(
-      "local-login",
-      new LocalStrategy(
-        {
-          usernameField: "login",
-          passwordField: "password",
-        },
-        async (login, password, done) => {
-          try {
-            const user = await isLoginExists(login);
-            if (!user) return done(null, false);
-            const isMatch = await matchPassword(password, user.password);
-            if (!isMatch) return done(null, false);
-            return done(null, {account_id: user.account_id, login: user.login});
-          } catch (error) {
-            return done(error, false);
-          }
-        }
-      )
-    );
-  };
+    if (user) {
+      done(null, user);
+    } else {
+      done(null, false);
+    }
+  } catch (err) {
+    return done(err, false);
+  }
+});
+
+jwtStrategy.cleanup = async () => {
+  await client.release();
+};
+
+passport.use(jwtStrategy);
+
+module.exports = passport;

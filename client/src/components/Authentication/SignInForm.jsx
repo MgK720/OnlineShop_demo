@@ -41,28 +41,35 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
    
     const [isDataNotFilled, setIsDataNotFilled] = useState(true);
 
+    const [loginResponse, setLoginResponse] = useState({})
     const signIn = async () => {
       const noErrors = !inputError.login && !inputError.password;
       const allRequiredDataFilled = loginData.login && loginData.password
       if(noErrors && allRequiredDataFilled){
         let data = {};
           try{
-            data = (await axios.post(`/auth/login`, {login: loginData.login, password: loginData.password }, { withCredentials: true })).data;
+            data = (await axios.post(`/auth/login`, {login: loginData.login, password: loginData.password })).data;
             console.log(data);
           }catch(e){
             console.error(e);
           }
           setUser(data.user);
+          setLoginResponse({error: data.error, msg: data.msg})
+          localStorage.setItem('token', data.token)
           data.error === false ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
       }
     }
 
-    const signInErrorAlert = () => (
-        <Alert severity="error" sx={{mt:2}}>Sign in Failed - incorrect data</Alert>
+    const signInAlert = (loginResponse) => (
+      <Alert severity={loginResponse.error ? 'error' : 'success'} sx={{mt:2}}>{loginResponse.msg}</Alert>
     )
-    const signInSuccessAlert = () => (
-        <Alert severity="success" sx={{mt:2}}>Signed in</Alert>
-    )
+
+    // const signInErrorAlert = () => (
+    //     <Alert severity="error" sx={{mt:2}}>Sign in Failed - incorrect data</Alert>
+    // )
+    // const signInSuccessAlert = () => (
+    //     <Alert severity="success" sx={{mt:2}}>Signed in</Alert>
+    // )
     return (
       <Dialog open={open} onClose={handleClose} sx={{p:0, m:0 }}>
         <Box
@@ -83,7 +90,7 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
             <LoginFormControl inputError={inputError.login} loginState={loginData.login} handleChange={handleChange}/>
             <PasswordFormControl inputError={inputError.password} passwordState={loginData.password} handleChange={handleChange}/>
             <Button variant="contained" fullWidth onClick={signIn} disabled={isDataNotFilled}>Login</Button>
-            {signInError.signTry && (signInError.error ? <div>{signInErrorAlert()}</div> : <div>{signInSuccessAlert()}</div>) }
+            {signInError.signTry ? signInAlert(loginResponse) : null }
         </Box>
       </Dialog>
     );

@@ -4,3 +4,5 @@
 
 
 3. Połączenie z cloudinary !!!
+
+4. logout jwt token delete etc...

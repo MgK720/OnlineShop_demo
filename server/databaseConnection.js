@@ -1,8 +1,8 @@
 //elephantsql.com
 var pg = require('pg');
 require('dotenv').config({ debug: process.env.DEBUG });
-
 var client = new pg.Client(process.env.DB_URL);
+
 
 // for local connection
 // const client = new Client({

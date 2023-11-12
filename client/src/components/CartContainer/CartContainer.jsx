@@ -8,21 +8,19 @@ export default function CartContainer(){
     const [user, setUser] = useState({});
     useEffect(() => {
         const checkLoginStatus = async () => {
-            for(let i = 0; i < 2; i++){
+            const token = localStorage.getItem('token');
                 try{
                     const {data} = await axios.get(`/auth/isloggedin`, {
                         headers: {
-                            'Authorization': user, 
+                            Authorization: `Bearer ${token}`,
                         },
                     })
-                   if(data.status === true){
-                   }
-                     console.log(user);
+                    console.log(user);
+                    console.log(data);
                 }catch(e){
                    console.error(e)
                 }
-            }
-                 }
+        }
         checkLoginStatus();
     }, [user])
     // useEffect(() => {
