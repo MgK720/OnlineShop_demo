@@ -19,13 +19,13 @@ router.post("/login", function(req,res,next){passport.authenticate("local-login"
     if(!user){ return res.json({error: true, msg: "Invalid username or password"}); }
     req.logIn(user,function(err){
       if(err){ return next(err) }
+      req.session.passport = { user: user };
       return res.json({error: false, msg: "signed in", user: user});
     });
   })(req,res,next)
 });
 
 router.get("/isloggedin", (req,res) => {
-    console.log(req.user);
     if (req.user) {
         res.json({status: true, user: req.user})
     }else {

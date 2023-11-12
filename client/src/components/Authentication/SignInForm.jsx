@@ -47,7 +47,7 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
       if(noErrors && allRequiredDataFilled){
         let data = {};
           try{
-            data = (await axios.post(`/auth/login`, {login: loginData.login, password: loginData.password })).data;
+            data = (await axios.post(`/auth/login`, {login: loginData.login, password: loginData.password }, { withCredentials: true })).data;
             console.log(data);
           }catch(e){
             console.error(e);

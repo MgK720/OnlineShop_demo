@@ -7,7 +7,23 @@ export default function CartContainer(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [user, setUser] = useState({});
     useEffect(() => {
-        console.log(user);
+        const checkLoginStatus = async () => {
+            for(let i = 0; i < 2; i++){
+                try{
+                    const {data} = await axios.get(`/auth/isloggedin`, {
+                        headers: {
+                            'Authorization': user, 
+                        },
+                    })
+                   if(data.status === true){
+                   }
+                     console.log(user);
+                }catch(e){
+                   console.error(e)
+                }
+            }
+                 }
+        checkLoginStatus();
     }, [user])
     // useEffect(() => {
     //     const checkLoginStatus = async () => {

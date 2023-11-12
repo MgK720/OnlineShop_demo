@@ -14,7 +14,7 @@ const port = 3000
 app.use(cors({
     origin: 'http://localhost:5173', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true, 
+    credentials: true
 }))
 
 app.use(session({
@@ -26,7 +26,7 @@ app.use(session({
 app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); 
 app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
     done(null, user);
@@ -36,11 +36,13 @@ passport.deserializeUser(function(user, done) {
     done(null, user);
   });
 
-app.use((req, res, next) => {
-    console.log(req.isAuthenticated())
+app.use(passport.session());
+
+ app.use((req, res, next) => {
+    console.log("this is my user: ", req.session);
     res.locals.user = req.user;
     next();
-  });
+ });
 
 // app.get("/getmsg", (req, res) => {
 //     res.json({ message: "Hello from Express!" });
