@@ -17,7 +17,7 @@ const login = async (req, res) => {
         const isPasswordValid = await bcrypt.compare(password, user.password);
     
         if (isPasswordValid) {
-          const token = jwt.sign({ id: user.account_id, account_type_id: user.account_type_id, login: user.login }, jwtOptions.secretOrKey);
+          const token = jwt.sign({ id: user.account_id, account_type_id: user.account_type_id, login: user.login }, jwtOptions.secretOrKey, { expiresIn: '30s' });
           req.isAuth = true;
           res.json({ 
             token: token, 

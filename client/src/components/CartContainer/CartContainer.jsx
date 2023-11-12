@@ -15,14 +15,19 @@ export default function CartContainer(){
                             Authorization: `Bearer ${token}`,
                         },
                     })
-                    console.log(user);
-                    console.log(data);
+                    if(data.status === true){
+                        setIsLoggedIn(true);
+                    }else{
+                        localStorage.removeItem('token');
+                    }
+                    //console.log(user);
+                    //console.log(data);
                 }catch(e){
                    console.error(e)
                 }
         }
         checkLoginStatus();
-    }, [user])
+    }, [])
     // useEffect(() => {
     //     const checkLoginStatus = async () => {
     //         try{

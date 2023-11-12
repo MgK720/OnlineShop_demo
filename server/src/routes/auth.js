@@ -25,6 +25,7 @@ router.post('/login', async (req, res, next) => {
 
 //test
 router.get("/isloggedin", verifyToken, (req,res) => {
+    //req.user.isOwner tak moge sprawdzić backendowo czy to jest właściciel czy nie
     if (req.user) {
         console.log({status: true, user: req.user, msg: 'User authorized'})
         res.json({status: true, user: req.user, msg: 'User authorized'})
