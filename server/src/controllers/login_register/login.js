@@ -19,7 +19,15 @@ const login = async (req, res) => {
         if (isPasswordValid) {
           const token = jwt.sign({ id: user.account_id, account_type_id: user.account_type_id, login: user.login }, jwtOptions.secretOrKey);
           req.isAuth = true;
-          res.json({ token: token, error: false, msg: "Signed in", user: { account_id: user.account_id, account_type_id: user.account_type_id, login: user.login } });
+          res.json({ 
+            token: token, 
+            error: false,
+            msg: "Signed in", 
+            user: { 
+                account_id: user.account_id, 
+                isOwner: user.account_type_id === 1 ? true : false,
+                login: user.login } 
+            });
         } else {
           res.json({error: true, msg: "Incorrect password"});
         }
