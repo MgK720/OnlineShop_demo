@@ -7,7 +7,7 @@ const { jwtOptions } = require('../../config/jwtOptions')
 
 const jwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
   try {
-    const result = await client.query('SELECT * FROM account WHERE account_id=$1', [payload.id]);
+    const result = await client.query('SELECT account_id, account_type_id, login FROM account WHERE account_id=$1', [payload.id]);
     const user = result.rows[0];
 
     if (user) {
