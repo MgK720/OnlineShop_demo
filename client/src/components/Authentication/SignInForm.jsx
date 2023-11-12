@@ -43,6 +43,12 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
 
     const [loginResponse, setLoginResponse] = useState({})
     const signIn = async () => {
+      const token = localStorage.getItem('token');
+      if(token){
+        setLoginResponse({error: true, msg: 'You are already signed'})
+        setSignInError({signTry: true, error: true})
+        return;
+      }
       const noErrors = !inputError.login && !inputError.password;
       const allRequiredDataFilled = loginData.login && loginData.password
       if(noErrors && allRequiredDataFilled){
@@ -52,10 +58,16 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
             console.log(data);
           }catch(e){
             console.error(e);
+            setLoginResponse({error: true, msg: 'Connection error'})
           }
-          setUser(data.user);
-          setLoginResponse({error: data.error, msg: data.msg})
-          localStorage.setItem('token', data.token)
+          if(data){
+            setUser(data.user);
+            console.log(data);
+            setLoginResponse({error: data.error, msg: data.msg})
+            if(data.token){
+              localStorage.setItem('token', data.token)
+            }
+          }
           data.error === false ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});
       }
     }

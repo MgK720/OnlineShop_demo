@@ -107,6 +107,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
     //Logout
     const logout = () => {
         setTimeout(() => {
+            localStorage.removeItem('token');
             setSignUpError({signUpTry: false, error:false}),
             setSignInError({signTry: false, error: false}),
             setIsLoggedIn(false)

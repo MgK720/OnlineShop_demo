@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const client = require('../../../databaseConnection');
 
-const register = async (request,response)=>{
+const register = async (request, response)=>{
     try{
         const { login, password, passwordRep } = request.body;
         console.log(password, passwordRep);

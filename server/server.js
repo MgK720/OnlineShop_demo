@@ -20,22 +20,18 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); 
 app.use(passport.initialize());
 
+app.use((req, res, next) => {
+  console.log(req.isAuth);
+  next();
+})
+
 app.use("/items", itemsRoutes);
 app.use("/categories", categoriesRoutes)
-// TODO - gdy zalogowany to nie ma możliwośći wejścia pod te routy
 app.use('/auth', authRoutes)
+
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
 })
 
 
-// const client = require('./databaseConnection');
-// app.get("/conTest", async (req,res) => {
-//     try{
-//         const results = await client.query('SELECT * FROM order_status');
-//         res.json(results.rows)
-//     }catch (err) {
-//         console.log(err);
-//     }
-// })

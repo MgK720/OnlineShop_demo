@@ -1,29 +1,35 @@
-const client = require('../../../databaseConnection');
-const passport = require('passport');
-const passportJWT = require('passport-jwt');
-const JwtStrategy = passportJWT.Strategy;
-
+const bcrypt = require('bcrypt');
 const { jwtOptions } = require('../../config/jwtOptions')
+const jwt = require('jsonwebtoken');
+const client = require('../../../databaseConnection');
 
-const jwtStrategy = new JwtStrategy(jwtOptions, async (payload, done) => {
-  try {
-    const result = await client.query('SELECT account_id, account_type_id, login FROM account WHERE account_id=$1', [payload.id]);
-    const user = result.rows[0];
+const login = async (req, res) => {
+    try {
+        const { login, password } = req.body;
+    
+        const result = await client.query('SELECT * FROM account WHERE login=$1', [login]);
+        const user = result.rows[0];
+    
+        if (!user) {
+          return res.json({error: true, msg: "User not found"});
+        }
+    
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+    
+        if (isPasswordValid) {
+          const token = jwt.sign({ id: user.account_id, account_type_id: user.account_type_id, login: user.login }, jwtOptions.secretOrKey);
+          req.isAuth = true;
+          res.json({ token: token, error: false, msg: "Signed in", user: { account_id: user.account_id, account_type_id: user.account_type_id, login: user.login } });
+        } else {
+          res.json({error: true, msg: "Incorrect password"});
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        res.json({error: true, msg: "Internal server error"});
+      }
 
-    if (user) {
-      done(null, user);
-    } else {
-      done(null, false);
-    }
-  } catch (err) {
-    return done(err, false);
-  }
-});
+}
 
-jwtStrategy.cleanup = async () => {
-  await client.release();
-};
-
-passport.use(jwtStrategy);
-
-module.exports = passport;
+module.exports = {
+    login
+}
