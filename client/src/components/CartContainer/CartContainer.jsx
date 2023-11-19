@@ -5,6 +5,15 @@ import { useEffect, useState } from 'react'
 
 export default function CartContainer(){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    useEffect(()=>{
+        console.log(`my login status: ${isLoggedIn}`);
+    }, [isLoggedIn])
+
+    // const [token, setToken] = useState((localStorage.getItem('token')))
+    // useEffect(()=>{
+    //     setIsLoggedIn(token ? true : false)
+    // }, [token])
+
     const [user, setUser] = useState({});
     useEffect(() => {
         const checkLoginStatus = async () => {

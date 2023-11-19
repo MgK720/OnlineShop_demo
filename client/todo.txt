@@ -14,3 +14,6 @@
 
 5. update Profile
 6. observer czy token nadal istnieje - żeby uzytkownik nie był w momencie updateowania profilu/ skladania zamowienia a token juz nie istnieje - kontrola czy czas zywotnosci tokenu sie skonczył
+
+
+7. na koniec koniecznie przy wszystkich zapytaniach do bazy danych zrobić loadingstate'y

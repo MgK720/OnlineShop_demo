@@ -12,7 +12,7 @@ import TextInput from "./TextInput";
 //moze jescze endDecorator lub startDecorator dla inputów
 //ustawić maxlength dla kazdej wartości
 
-export default function DeliveryForm({open, handleClose, isProfileComplete, setIsProfileComplete}) {
+export default function DeliveryForm({open, setOpen, handleClose, isProfileComplete, setIsProfileComplete, logout}) {
     const [data, setData] = useState({
         firstname: {
             inputName: 'firstname',
@@ -106,6 +106,8 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
         isDataNotFilled: true
     })
 
+
+    //TODO handling isprofileComplete - bo teraz trzeba wejsc w profile zeby dopiero skladac zamowienie
     const getAccountIdByToken = async () => {
         const token = localStorage.getItem('token');
             try{
@@ -114,11 +116,28 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
                         Authorization: `Bearer ${token}`,
                     },
                 })
-                return(data.user.account_id)
+                if(data.status === false){
+                    handleExpiredToken()
+                }else{
+                    if(data.user.account_id){
+                        return(data.user.account_id)
+                    }
+                }
             }catch(e){
                console.error(e)
             }
-            return(null);
+            return("exp");
+    }
+
+    //this function can refresh token etc... in the future
+    const handleExpiredToken = () => {
+        //TODO alert dla uzytkownika "token is expired"
+        //setIsTokenExpired(true) 
+        //setIsTokenExpired(false) 
+        setOpen();
+        setTimeout(()=>{
+            logout();
+        }, 500)
     }
 
     //const [dataFromDB, setDataFromDB] = useState([]);
@@ -127,24 +146,28 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
         const fetchDataFromDB = async () => {
             try{
                 const account_id = await getAccountIdByToken();
-                const { data } = await axios.get(`/profile/${account_id}`)
-                console.log(`data from db: ${data}`);
-                console.log(data);
-                if(data){
-                    //setDataFromDB(data)
-                    setData((currData) => {
-                        return{
-                            ...currData,
-                            firstname: { ...currData.firstname, inputValue: data.length ? data[0] : "" },
-                            lastname: { ...currData.lastname, inputValue: data.length ? data[1] : "" },
-                            phoneNumber: { ...currData.phoneNumber, inputValue: data.length ? data[2] : "" },
-                            city: { ...currData.city, inputValue: data.length ? data[3] : "" },
-                            zipCode: { ...currData.zipCode, inputValue: data.length ? data[4] : "" },
-                            street: { ...currData.street, inputValue: data.length ? data[5] : "" },
-                            houseNumber: { ...currData.houseNumber, inputValue: data.length ? data[6] : "" },
-                        }
-                    })
-                    data.length ? setIsProfileComplete(true) : null;
+                if(account_id == "exp"){
+                    return;
+                }else{
+                    const { data } = await axios.get(`/profile/${account_id}`)
+                    console.log(`data from db: ${data}`);
+                    console.log(data);
+                    if(data){
+                        //setDataFromDB(data)
+                        setData((currData) => {
+                            return{
+                                ...currData,
+                                firstname: { ...currData.firstname, inputValue: data.length ? data[0] : "" },
+                                lastname: { ...currData.lastname, inputValue: data.length ? data[1] : "" },
+                                phoneNumber: { ...currData.phoneNumber, inputValue: data.length ? data[2] : "" },
+                                city: { ...currData.city, inputValue: data.length ? data[3] : "" },
+                                zipCode: { ...currData.zipCode, inputValue: data.length ? data[4] : "" },
+                                street: { ...currData.street, inputValue: data.length ? data[5] : "" },
+                                houseNumber: { ...currData.houseNumber, inputValue: data.length ? data[6] : "" },
+                            }
+                        })
+                        data.length ? setIsProfileComplete(true) : null;
+                    }
                 }
             }catch(e){
                 console.error(e);
@@ -193,14 +216,15 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
                 street: data.street.inputValue,
                 houseNumber: data.houseNumber.inputValue
             }
-            console.log(profileRequestBody);
             let response = {};
             try{
                 const account_id = await getAccountIdByToken();
-                const { data } = await axios.post(`/profile/create/${account_id}`, profileRequestBody)
-                response = data;
-                console.log(`data from db when creating profile: ${data}`);
-                console.log(data);
+                if(account_id == "exp"){
+                    return;
+                }else{
+                    const { data } = await axios.post(`/profile/create/${account_id}`, profileRequestBody)
+                    response = data;
+                }
             }catch(e){
                 console.error(e);
             }

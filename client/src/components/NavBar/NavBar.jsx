@@ -146,7 +146,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
             </AppBar>
             <SignInForm open={openSignIn} setUser={setUser} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
             <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
-            <ProfileForm open={openProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete}/>
+            <ProfileForm open={openProfile} setOpen={setOpenProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete} logout={logout}/>
             <Cart open={openCart} handleClose={handleCloseCartDialog} isProfileComplete={isProfileComplete} cartItems={cartItems} setCartItems={setCartItems}/>
         </Box>
     );
