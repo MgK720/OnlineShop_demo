@@ -5,4 +5,12 @@
 
 3. Połączenie z cloudinary !!!
 
-4. logout jwt token delete etc...
+
+
+
+
+
+4. logout jwt token delete etc... - pomyśleć o dodaniu blacklist token gdy uzytkownik sie wyloguje - po stronie servera
+
+5. update Profile
+6. observer czy token nadal istnieje - żeby uzytkownik nie był w momencie updateowania profilu/ skladania zamowienia a token juz nie istnieje - kontrola czy czas zywotnosci tokenu sie skonczył

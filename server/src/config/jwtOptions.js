@@ -1,6 +1,6 @@
 const passportJWT = require('passport-jwt');
 const ExtractJwt = passportJWT.ExtractJwt;
-require('dotenv').config({ debug: process.env.DEBUG });
+const s = require('dotenv').config({ debug: process.env.DEBUG });
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

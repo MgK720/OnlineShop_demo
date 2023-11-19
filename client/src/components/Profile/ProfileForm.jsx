@@ -1,3 +1,4 @@
+import axios from "axios";
 import { Dialog, TextField } from "@mui/material"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
@@ -104,28 +105,57 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
         },
         isDataNotFilled: true
     })
-    //tutaj jeszcze useEffectem ustawiamy za kazdym razem gdy otwieramy dialog (zalezne od state'a open) - jakie dane maja sie wstawic w pola - pobrane z bazy danych
+
+    const getAccountIdByToken = async () => {
+        const token = localStorage.getItem('token');
+            try{
+                const {data} = await axios.get(`/auth/isloggedin`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                return(data.user.account_id)
+            }catch(e){
+               console.error(e)
+            }
+            return(null);
+    }
+
+    //const [dataFromDB, setDataFromDB] = useState([]);
     useEffect(() =>{
-        // const dataFromDB = ["Tom", "Statham", "434343434", "New York", "121-22121", "newroad", "123/2d"]
-        const dataFromDB = 0;
-        if(dataFromDB){
-            setData((currData) => {
-                return{
-                    ...currData,
-                    firstname: { ...currData.firstname, inputValue: dataFromDB[0] },
-                    lastname: { ...currData.lastname, inputValue: dataFromDB[1] },
-                    phoneNumber: { ...currData.phoneNumber, inputValue: dataFromDB[2] },
-                    city: { ...currData.city, inputValue: dataFromDB[3] },
-                    zipCode: { ...currData.zipCode, inputValue: dataFromDB[4] },
-                    street: { ...currData.street, inputValue: dataFromDB[5] },
-                    houseNumber: { ...currData.houseNumber, inputValue: dataFromDB[6] },
+        //dataFromDB = ["Tom", "Statham", "434343434", "New York", "121-22121", "newroad", "123/2d"]
+        const fetchDataFromDB = async () => {
+            try{
+                const account_id = await getAccountIdByToken();
+                const { data } = await axios.get(`/profile/${account_id}`)
+                console.log(`data from db: ${data}`);
+                console.log(data);
+                if(data){
+                    //setDataFromDB(data)
+                    setData((currData) => {
+                        return{
+                            ...currData,
+                            firstname: { ...currData.firstname, inputValue: data.length ? data[0] : "" },
+                            lastname: { ...currData.lastname, inputValue: data.length ? data[1] : "" },
+                            phoneNumber: { ...currData.phoneNumber, inputValue: data.length ? data[2] : "" },
+                            city: { ...currData.city, inputValue: data.length ? data[3] : "" },
+                            zipCode: { ...currData.zipCode, inputValue: data.length ? data[4] : "" },
+                            street: { ...currData.street, inputValue: data.length ? data[5] : "" },
+                            houseNumber: { ...currData.houseNumber, inputValue: data.length ? data[6] : "" },
+                        }
+                    })
+                    data.length ? setIsProfileComplete(true) : null;
                 }
-            })
-            setIsProfileComplete(true);
+            }catch(e){
+                console.error(e);
+            }
         }
-        if(isProfileComplete){
-            setCreateProfileError({confirmTry: false, status: false, msg: ""})
-        } 
+        if(open){
+            fetchDataFromDB();
+            if(isProfileComplete){
+                setCreateProfileError({confirmTry: false, status: false, msg: ""})
+            } 
+        }
     }, [open])
 
     useEffect(()=>{
@@ -152,11 +182,30 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
     }
     const [createProfileError, setCreateProfileError] = useState({confirmTry: false, status: false, msg:""})
 
-    const createProfile = () => {
+    const createProfile = async () => {
         if(!data.isDataNotFilled){
-          const responseOK = 1; //1 - done
-          responseOK ? setCreateProfileError({confirmTry: true, status: false, msg: "Profile created - now you can make order"}) : setCreateProfileError({confirmTry: true, status: true, msg: "Incorrect data"});
-          responseOK && setIsProfileComplete(true);
+            const profileRequestBody = {
+                firstname: data.firstname.inputValue,
+                lastname: data.lastname.inputValue,
+                phone_number: data.phoneNumber.inputValue,
+                city: data.city.inputValue,
+                zipCode: data.zipCode.inputValue,
+                street: data.street.inputValue,
+                houseNumber: data.houseNumber.inputValue
+            }
+            console.log(profileRequestBody);
+            let response = {};
+            try{
+                const account_id = await getAccountIdByToken();
+                const { data } = await axios.post(`/profile/create/${account_id}`, profileRequestBody)
+                response = data;
+                console.log(`data from db when creating profile: ${data}`);
+                console.log(data);
+            }catch(e){
+                console.error(e);
+            }
+            !response.error ? setCreateProfileError({confirmTry: true, status: false, msg: response.msg}) : setCreateProfileError({confirmTry: true, status: true, msg: response.msg});
+            !response.error && setIsProfileComplete(true);
         }
       }
 
@@ -217,4 +266,6 @@ export default function DeliveryForm({open, handleClose, isProfileComplete, setI
             </Box>
         </Dialog>
     );
+    
 }
+

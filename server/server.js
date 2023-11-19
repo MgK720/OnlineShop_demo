@@ -5,6 +5,7 @@ const app = express()
 const itemsRoutes = require('./src/routes/items')
 const categoriesRoutes = require('./src/routes/categories')
 const authRoutes = require('./src/routes/auth')
+const profileRoutes = require('./src/routes/profile')
 
 const passport = require('passport');
 
@@ -26,8 +27,9 @@ app.use((req, res, next) => {
 })
 
 app.use("/items", itemsRoutes);
-app.use("/categories", categoriesRoutes)
-app.use('/auth', authRoutes)
+app.use("/categories", categoriesRoutes);
+app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes);
 
 
 app.listen(port, () => {
