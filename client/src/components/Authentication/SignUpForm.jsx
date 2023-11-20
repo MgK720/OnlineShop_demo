@@ -64,6 +64,9 @@ export default function SignUpForm ({open, handleClose, signUpError, setSignUpEr
           }
           setRegisterResponse(data);
           data.error === false ? setSignUpError({signUpTry: true, error: false}) : setSignUpError({signUpTry: true, error: true});
+          if(data.error === false){
+            window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: "Signed Up" } }));
+          }
           console.log(signUpError)
         }
       }

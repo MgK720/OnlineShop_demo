@@ -227,6 +227,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             }
             !response.error ? setCreateProfileError({confirmTry: true, status: false, msg: response.msg}) : setCreateProfileError({confirmTry: true, status: true, msg: response.msg});
             !response.error && setIsProfileComplete(true);
+            !response.error && window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: response.msg } }));
         }
       }
 
