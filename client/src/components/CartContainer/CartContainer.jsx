@@ -26,6 +26,7 @@ export default function CartContainer(){
                         },
                     })
                     if(data.status === true){
+                        window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: data.msg } }));
                         setIsLoggedIn(true);
                     }
                     //console.log(user);

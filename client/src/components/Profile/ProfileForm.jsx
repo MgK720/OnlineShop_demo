@@ -213,21 +213,23 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
                 street: data.street.inputValue,
                 houseNumber: data.houseNumber.inputValue
             }
-            let response = {};
             try{
                 const account_id = await getAccountIdByToken();
                 if(account_id == "exp"){
                     return;
                 }else{
                     const { data } = await axios.post(`/profile/create/${account_id}`, profileRequestBody)
-                    response = data;
+                    if(!data.error){
+                        setCreateProfileError({confirmTry: true, status: false, msg: response.msg})
+                        setIsProfileComplete(true);
+                        window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: response.msg } }));
+                    }
                 }
             }catch(e){
                 console.error(e);
+                setCreateProfileError({confirmTry: true, status: true, msg: "Internal server error"})
             }
-            !response.error ? setCreateProfileError({confirmTry: true, status: false, msg: response.msg}) : setCreateProfileError({confirmTry: true, status: true, msg: response.msg});
-            !response.error && setIsProfileComplete(true);
-            !response.error && window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: response.msg } }));
+
         }
       }
 
