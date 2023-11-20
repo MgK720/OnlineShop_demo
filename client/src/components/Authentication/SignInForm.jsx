@@ -7,7 +7,7 @@ import Alert from '@mui/material/Alert';
 import PasswordFormControl from './FormControls/PasswordFormControl';
 import LoginFormControl from './FormControls/LoginFormControl';
 
-export default function SignInForm({open, setUser, handleClose, signInError, setSignInError}){
+export default function SignInForm({open, setUser, handleClose, signInError, setSignInError, setIsProfileComplete}){
     const initData = {
         login: "",
         password: ""
@@ -65,8 +65,14 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
             console.log(data);
             setLoginResponse({error: data.error, msg: data.msg})
             if(data.token){
-              window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: "Signed In" } }));
+              window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: data.msg } }));
               localStorage.setItem('token', data.token)
+            }
+            try{
+              const isProfileCompleteDB = await axios.get(`/profile/${data.user.account_id}`);
+              isProfileCompleteDB.data.length ? setIsProfileComplete(true) : setIsProfileComplete(false);
+            }catch (e){
+              console.error(e)
             }
           }
           data.error === false ? setSignInError({signTry: true, error: false}) : setSignInError({signTry: true, error: true});

@@ -60,7 +60,8 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
         {
             name: "logout",
             onClick: () => {
-                logout()
+                logout();
+                window.dispatchEvent(new CustomEvent('warningAlert', { detail: { message: "Logged out" } }));
             },
             icon: <LogoutIcon/>
         }
@@ -108,7 +109,6 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
     const logout = () => {
         setTimeout(() => {
             localStorage.removeItem('token');
-            window.dispatchEvent(new CustomEvent('warningAlert', { detail: { message: "Logged out" } }));
             setSignUpError({signUpTry: false, error:false}),
             setSignInError({signTry: false, error: false}),
             setIsLoggedIn(false)
@@ -145,7 +145,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
                 <MobileMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
                 </Toolbar>
             </AppBar>
-            <SignInForm open={openSignIn} setUser={setUser} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} />
+            <SignInForm open={openSignIn} setUser={setUser} handleClose={handleCloseSignIn} signInError={signInError} setSignInError={setSignInError} setIsProfileComplete={setIsProfileComplete}/>
             <SignUpForm open={openSignUp} handleClose={handleCloseSignUp} signUpError={signUpError} setSignUpError={setSignUpError} />
             <ProfileForm open={openProfile} setOpen={setOpenProfile} handleClose={handleCloseProfile} profileFormError={profileError} setProfileFormError={setProfileError} isProfileComplete={isProfileComplete} setIsProfileComplete={setIsProfileComplete} logout={logout}/>
             <Cart open={openCart} handleClose={handleCloseCartDialog} isProfileComplete={isProfileComplete} cartItems={cartItems} setCartItems={setCartItems}/>
