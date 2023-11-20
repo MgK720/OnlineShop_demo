@@ -3,22 +3,27 @@ import CustomSnackbar from './CustomSnackbar';
 
 const SnackbarManager = () => {
   const [snackbarData, setSnackbarData] = useState(null);
+  const [open, setOpen] = React.useState(false);
 
   useEffect(() => {
-    const handleAxiosError = (event) => {
+    const handleEvent = (event, severity) => {
       const { message } = event.detail;
-      setSnackbarData({ message, severity: 'error' });
+      setSnackbarData({ message, severity: severity });
+      setOpen(true)
 
       setTimeout(() => {
-        setSnackbarData(null);
-      }, 12000);
+        setOpen(false)
+      }, 15000)
     };
 
-    window.addEventListener('axiosError', handleAxiosError);
+
+    window.addEventListener('axiosError', (event) => handleEvent(event, "error"));
+    window.addEventListener('successAlert', (event) => handleEvent(event, "success"));
     //here i can add another eventListeners for another severity etc...
 
     return () => {
-      window.removeEventListener('axiosError', handleAxiosError);
+      window.removeEventListener('axiosError', (event) => handleEvent(event, "error"));
+      window.addEventListener('successAlert', (event) => handleEvent(event, "success"));
     };
   }, []);
 
@@ -26,8 +31,8 @@ const SnackbarManager = () => {
     <div>
       {snackbarData && (
         <CustomSnackbar
-          open={true}
-          onClose={() => setSnackbarData(null)}
+          open={open}
+          setOpen={setOpen}
           message={snackbarData.message}
           severity={snackbarData.severity}
         />

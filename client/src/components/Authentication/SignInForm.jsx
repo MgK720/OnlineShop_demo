@@ -65,6 +65,7 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
             console.log(data);
             setLoginResponse({error: data.error, msg: data.msg})
             if(data.token){
+              window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: "Signed In" } }));
               localStorage.setItem('token', data.token)
             }
           }

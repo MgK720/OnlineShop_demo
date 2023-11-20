@@ -27,12 +27,11 @@ export default function CartContainer(){
                     })
                     if(data.status === true){
                         setIsLoggedIn(true);
-                    }else{
-                        localStorage.removeItem('token');
                     }
                     //console.log(user);
                     //console.log(data);
                 }catch(e){
+                   localStorage.removeItem('token');
                    console.error(e)
                 }
         }
