@@ -1,5 +1,6 @@
 import NavBar from '../NavBar/NavBar';
-import axios from "axios";
+//import axios from "axios";
+import axios from '../../axiosConfig';
 import MainSection from '../MainSection/MainSection';
 import { useEffect, useState } from 'react'
 

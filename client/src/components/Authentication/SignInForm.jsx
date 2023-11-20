@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosConfig";
 import Box from '@mui/material/Box';
 import {useState, useEffect} from "react"
 import { Dialog, Typography, Divider } from '@mui/material';

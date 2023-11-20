@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosConfig";
 import { Dialog, TextField } from "@mui/material"
 import Box from "@mui/material/Box"
 import Typography from "@mui/material/Typography"
@@ -109,22 +109,19 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
 
     //TODO handling isprofileComplete - bo teraz trzeba wejsc w profile zeby dopiero skladac zamowienie
     const getAccountIdByToken = async () => {
-        const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
             try{
                 const {data} = await axios.get(`/auth/isloggedin`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
                 })
-                if(data.status === false){
-                    handleExpiredToken()
-                }else{
-                    if(data.user.account_id){
-                        return(data.user.account_id)
-                    }
+                if(data.user.account_id){
+                    return(data.user.account_id)
                 }
             }catch(e){
-               console.error(e)
+                handleExpiredToken()
+                console.error(e)
             }
             return("exp");
     }

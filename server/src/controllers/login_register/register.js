@@ -15,17 +15,17 @@ const register = async (request, response)=>{
             try{
                 const insertQuery = await client.query('Insert Into account(account_id, account_type_id, login, password) Values (default, 0, $1, $2)', [login, hashedPassword] );
             }catch(e){
-                response.json({error: true ,msg: 'Internal server error'})
-                throw e;
+                console.log(e);
+                response.status(500).json({ error: 'Internal server error' })
             }
             console.log(`New account registered - ${login}`);
             response.json({error: false ,msg: 'Account created'})
         }else{
             response.json({error: true ,msg: 'User with this login exists'})
-            throw 'User with this login already exists';
         }
     }catch (error){
-        console.error(error);
+        console.log(e);
+        res.status(500).json({ error: 'Internal server error' })
     }
   }
 

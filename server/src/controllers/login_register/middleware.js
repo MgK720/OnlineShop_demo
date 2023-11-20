@@ -3,7 +3,8 @@ const passport = require('./passportJWT'); // Adjust the path accordingly
 const verifyToken = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
     if (err || !user) {
-      return res.json({ status: false, msg: 'Unauthorized: Invalid token' });
+      //return res.json({ status: false, msg: 'Unauthorized: Invalid token' });
+      next();
     }
     req.user = user;
     next();

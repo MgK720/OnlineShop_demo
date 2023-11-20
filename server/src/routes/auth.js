@@ -5,21 +5,11 @@ const login = require('../controllers/login_register/login');
 const { verifyToken } = require('../controllers/login_register/middleware');
 
 router.post('/register', (req, res) => {
-    try {
-        register.register(req, res); 
-    } catch (e) {
-        console.log(e);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+    register.register(req, res); 
 });
 
 router.post('/login', async (req, res, next) => {
-    try{
-        login.login(req,res);
-    }catch (e) {
-        console.log(e);
-        res.status(500).json({ error: 'Internal server error' });
-    }
+    login.login(req,res);
 });
 
 
@@ -30,7 +20,7 @@ router.get("/isloggedin", verifyToken, (req,res) => {
         console.log({status: true, user: req.user, msg: 'User authorized'})
         res.json({status: true, user: req.user, msg: 'User authorized'})
     }else {
-        res.json({status: false, msg: 'User not authorized'})
+        res.status(401).json({status: false, error: 'User not logged in'})
     }
 })
 

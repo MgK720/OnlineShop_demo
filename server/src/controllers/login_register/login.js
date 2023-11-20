@@ -31,10 +31,10 @@ const login = async (req, res) => {
         } else {
           res.json({error: true, msg: "Incorrect password"});
         }
-      } catch (err) {
-        console.error('Login error:', err);
-        res.json({error: true, msg: "Internal server error"});
-      }
+    }catch (e) {
+        console.log(e);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 
 }
 
