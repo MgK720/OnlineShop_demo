@@ -5,6 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import SignInForm from '../Authentication/SignInForm';
 import ProfileForm from "../Profile/ProfileForm"
+import ThemeSwitch from '../Theme/ThemeSwitch';
 
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
@@ -18,7 +19,7 @@ import SignUpForm from "../Authentication/SignUpForm";
 import Badge from '@mui/material/Badge';
 import Cart from "../Cart/Cart";
 
-export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, cartItems, setCartItems, setUser, user}) {
+export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, cartItems, setCartItems, setUser, user, toggleTheme}) {
     const notAuthenticatedMenu = [
         {
             name: "register",
@@ -141,6 +142,12 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     OnlineShop
                 </Typography>
+                <Box sx={{display: 'flex', flexDirection: 'row' }}>
+                    <Typography variant="h7" component="div" sx={{mt:0.9}}>
+                        DarkTheme
+                    </Typography>
+                    <ThemeSwitch onChange={toggleTheme}/>
+                </Box>
                 <DesktopMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
                 <MobileMenu isLoggedIn={isLoggedIn} notAuthenticatedMenu={notAuthenticatedMenu} authenticatedMenu={authenticatedMenu}/>
                 </Toolbar>

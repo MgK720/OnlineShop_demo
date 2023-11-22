@@ -4,7 +4,7 @@ import axios from '../../axiosConfig';
 import MainSection from '../MainSection/MainSection';
 import { useEffect, useState } from 'react'
 
-export default function CartContainer(){
+export default function CartContainer({toggleTheme}){
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     useEffect(()=>{
         console.log(`my login status: ${isLoggedIn}`);
@@ -109,7 +109,7 @@ export default function CartContainer(){
 
     return (
     <>
-        <NavBar isLoggedIn={isLoggedIn} setUser={setUser} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems} user={user}/>
+        <NavBar isLoggedIn={isLoggedIn} setUser={setUser} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems} user={user} toggleTheme={toggleTheme}/>
         <MainSection isLoggedIn={isLoggedIn} 
             setCartItems={setCartItems} 
             cartItems={cartItems}

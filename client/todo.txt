@@ -10,3 +10,4 @@
 
 
 7. na koniec koniecznie przy wszystkich zapytaniach do bazy danych zrobić loadingstate'y
+8. dark mode
