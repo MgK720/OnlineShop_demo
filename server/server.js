@@ -21,15 +21,18 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({extended: true})); 
 app.use(passport.initialize());
 
-app.use((req, res, next) => {
-  console.log(req.isAuth);
-  next();
-})
+// app.use((req, res, next) => {
+//   console.log(req.isAuth);
+//   next();
+// })
 
 app.use("/items", itemsRoutes);
 app.use("/categories", categoriesRoutes);
 app.use('/auth', authRoutes);
 app.use('/profile', profileRoutes);
+app.use((req, res) => {
+  res.status(404).json({ msg: 'Not Found' });
+});
 
 
 app.listen(port, () => {
