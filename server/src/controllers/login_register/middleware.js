@@ -1,4 +1,5 @@
-const passport = require('./passportJWT'); // Adjust the path accordingly
+const passport = require('./passportJWT'); 
+const client = require('../../../databaseConnection');
 
 const verifyToken = (req, res, next) => {
   passport.authenticate('jwt', { session: false }, (err, user, info) => {
@@ -11,7 +12,32 @@ const verifyToken = (req, res, next) => {
   })(req, res, next);
 };
 
-module.exports = { verifyToken };
+const isAccountHaveProfile = async (req, res, next) => {
+  if(req.user){
+    try{
+      console.log(req.user.account_id);
+      const isAccountHaveProfile = await client.query('Select * from profile where account_id=$1', [req.user.account_id])
+      console.log(isAccountHaveProfile)
+      if(isAccountHaveProfile.rowCount){
+        console.log('This account have profile')
+        req.isAccountHaveProfile = true;
+      }else{
+        console.log("This account dont have profile")
+        req.isAccountHaveProfile = false;
+      }
+      next();
+    }catch(e){
+      console.error(e);
+      res.status(500).json({status: false, error: 'Internal server Error'})
+      return;
+    }
+  }else{
+      res.status(401).json({status: false, error: 'User not logged in'})
+      return;
+  }
+};
+
+module.exports = { verifyToken, isAccountHaveProfile };
 
 
 

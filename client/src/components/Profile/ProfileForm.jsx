@@ -235,6 +235,39 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
         }
       }
 
+    const updateProfile = async () => {
+        if(!data.isDataNotFilled){
+            const token = localStorage.getItem('token');
+            const profileRequestBody = {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data: {
+                    firstname: data.firstname.inputValue,
+                    lastname: data.lastname.inputValue,
+                    phone_number: data.phoneNumber.inputValue,
+                    city: data.city.inputValue,
+                    zipCode: data.zipCode.inputValue,
+                    street: data.street.inputValue,
+                    houseNumber: data.houseNumber.inputValue
+                }
+            }
+            try{
+                const { data } = await axios.put(`/profile/update/currentuser`, profileRequestBody.data, { headers: profileRequestBody.headers })
+                if(!data.error){
+                    setCreateProfileError({confirmTry: true, status: false, msg: data.msg})
+                    setIsProfileComplete(true);
+                    window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: data.msg } }));
+                }
+            }catch(e){
+                handleExpiredToken()
+                console.error(e);
+                setCreateProfileError({confirmTry: true, status: true, msg: "Internal server error"})
+            }
+
+        }
+      }
+
 
     const confirmAlert = (status, msg) => {
         const alertType = status === false ? "success" : "error";
@@ -285,7 +318,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
                         <TextInput data={data.houseNumber}></TextInput>
                     </Grid>
                     <Grid xs={12} md={9} mdOffset={1.5}>
-                        <Button variant="contained" onClick={createProfile} fullWidth disabled={data.isDataNotFilled}>Confirm</Button>
+                        <Button variant="contained" onClick={!isProfileComplete ? createProfile : updateProfile} fullWidth disabled={data.isDataNotFilled}>Confirm</Button>
                     </Grid>
                     {createProfileError.confirmTry && <Grid xs={12}>{confirmAlert(createProfileError.status, createProfileError.msg)}</Grid>}
                 </Grid>
