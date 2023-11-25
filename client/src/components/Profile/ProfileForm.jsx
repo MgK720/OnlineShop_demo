@@ -137,18 +137,13 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
 
     //this function can refresh token etc... in the future
     const handleExpiredToken = () => {
-        //TODO alert dla uzytkownika "token is expired"
-        //setIsTokenExpired(true) 
-        //setIsTokenExpired(false) 
         setOpen();
         setTimeout(()=>{
             logout();
         }, 500)
     }
 
-    //const [dataFromDB, setDataFromDB] = useState([]);
     useEffect(() =>{
-        //dataFromDB = ["Tom", "Statham", "434343434", "New York", "121-22121", "newroad", "123/2d"]
         const fetchDataFromDB = async () => {
             const token = localStorage.getItem('token');
             try{
@@ -160,7 +155,6 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
                 console.log(`data from db: ${data}`);
                 console.log(data);
                 if(data){
-                    //setDataFromDB(data)
                     setData((currData) => {
                         return{
                             ...currData,
@@ -204,12 +198,6 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
         }
     }, [data, open])
 
-    // const handleChangeFunc = (evt) => {
-    //     const { name, value } = evt.target;
-    //     setData((currData) =>{
-    //         return {...currData, [name]: { ...currData[name], inputValue: value} }
-    //     })
-    // }
     const handleChangeFunc = (evt) => {
         const { name, value } = evt.target;
         const maxLength = MAX_LENGTH[name];
