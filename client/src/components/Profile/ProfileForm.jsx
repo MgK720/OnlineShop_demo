@@ -107,24 +107,23 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
     })
 
 
-    //TODO handling isprofileComplete - bo teraz trzeba wejsc w profile zeby dopiero skladac zamowienie
-    const getAccountIdByToken = async () => {
-            const token = localStorage.getItem('token');
-            try{
-                const {data} = await axios.get(`/auth/isloggedin`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                })
-                if(data.user.account_id){
-                    return(data.user.account_id)
-                }
-            }catch(e){
-                handleExpiredToken()
-                console.error(e)
-            }
-            return("exp");
-    }
+    // const getAccountIdByToken = async () => {
+    //         const token = localStorage.getItem('token');
+    //         try{
+    //             const {data} = await axios.get(`/auth/isloggedin`, {
+    //                 headers: {
+    //                     Authorization: `Bearer ${token}`,
+    //                 },
+    //             })
+    //             if(data.user.account_id){
+    //                 return(data.user.account_id)
+    //             }
+    //         }catch(e){
+    //             handleExpiredToken()
+    //             console.error(e)
+    //         }
+    //         return("exp");
+    // }
 
     //this function can refresh token etc... in the future
     const handleExpiredToken = () => {
@@ -141,32 +140,33 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
     useEffect(() =>{
         //dataFromDB = ["Tom", "Statham", "434343434", "New York", "121-22121", "newroad", "123/2d"]
         const fetchDataFromDB = async () => {
+            const token = localStorage.getItem('token');
             try{
-                const account_id = await getAccountIdByToken();
-                if(account_id == "exp"){
-                    return;
-                }else{
-                    const { data } = await axios.get(`/profile/${account_id}`)
-                    console.log(`data from db: ${data}`);
-                    console.log(data);
-                    if(data){
-                        //setDataFromDB(data)
-                        setData((currData) => {
-                            return{
-                                ...currData,
-                                firstname: { ...currData.firstname, inputValue: data.length ? data[0] : "" },
-                                lastname: { ...currData.lastname, inputValue: data.length ? data[1] : "" },
-                                phoneNumber: { ...currData.phoneNumber, inputValue: data.length ? data[2] : "" },
-                                city: { ...currData.city, inputValue: data.length ? data[3] : "" },
-                                zipCode: { ...currData.zipCode, inputValue: data.length ? data[4] : "" },
-                                street: { ...currData.street, inputValue: data.length ? data[5] : "" },
-                                houseNumber: { ...currData.houseNumber, inputValue: data.length ? data[6] : "" },
-                            }
-                        })
-                        data.length ? setIsProfileComplete(true) : null;
-                    }
+                const { data } = await axios.get(`/profile/currentuser`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                })
+                console.log(`data from db: ${data}`);
+                console.log(data);
+                if(data){
+                    //setDataFromDB(data)
+                    setData((currData) => {
+                        return{
+                            ...currData,
+                            firstname: { ...currData.firstname, inputValue: data.length ? data[0] : "" },
+                            lastname: { ...currData.lastname, inputValue: data.length ? data[1] : "" },
+                            phoneNumber: { ...currData.phoneNumber, inputValue: data.length ? data[2] : "" },
+                            city: { ...currData.city, inputValue: data.length ? data[3] : "" },
+                            zipCode: { ...currData.zipCode, inputValue: data.length ? data[4] : "" },
+                            street: { ...currData.street, inputValue: data.length ? data[5] : "" },
+                            houseNumber: { ...currData.houseNumber, inputValue: data.length ? data[6] : "" },
+                        }
+                    })
+                    data.length ? setIsProfileComplete(true) : null;
                 }
             }catch(e){
+                handleExpiredToken()
                 console.error(e);
             }
         }
@@ -204,28 +204,30 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
 
     const createProfile = async () => {
         if(!data.isDataNotFilled){
+            const token = localStorage.getItem('token');
             const profileRequestBody = {
-                firstname: data.firstname.inputValue,
-                lastname: data.lastname.inputValue,
-                phone_number: data.phoneNumber.inputValue,
-                city: data.city.inputValue,
-                zipCode: data.zipCode.inputValue,
-                street: data.street.inputValue,
-                houseNumber: data.houseNumber.inputValue
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+                data: {
+                    firstname: data.firstname.inputValue,
+                    lastname: data.lastname.inputValue,
+                    phone_number: data.phoneNumber.inputValue,
+                    city: data.city.inputValue,
+                    zipCode: data.zipCode.inputValue,
+                    street: data.street.inputValue,
+                    houseNumber: data.houseNumber.inputValue
+                }
             }
             try{
-                const account_id = await getAccountIdByToken();
-                if(account_id == "exp"){
-                    return;
-                }else{
-                    const { data } = await axios.post(`/profile/create/${account_id}`, profileRequestBody)
-                    if(!data.error){
-                        setCreateProfileError({confirmTry: true, status: false, msg: response.msg})
-                        setIsProfileComplete(true);
-                        window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: response.msg } }));
-                    }
+                const { data } = await axios.post(`/profile/create/currentuser`, profileRequestBody.data, { headers: profileRequestBody.headers })
+                if(!data.error){
+                    setCreateProfileError({confirmTry: true, status: false, msg: data.msg})
+                    setIsProfileComplete(true);
+                    window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: data.msg } }));
                 }
             }catch(e){
+                handleExpiredToken()
                 console.error(e);
                 setCreateProfileError({confirmTry: true, status: true, msg: "Internal server error"})
             }

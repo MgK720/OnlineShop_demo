@@ -69,7 +69,12 @@ export default function SignInForm({open, setUser, handleClose, signInError, set
               localStorage.setItem('token', data.token)
             }
             try{
-              const isProfileCompleteDB = await axios.get(`/profile/${data.user.account_id}`);
+              const token = localStorage.getItem('token');
+              const isProfileCompleteDB = await axios.get(`/profile/currentuser`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+              });
               isProfileCompleteDB.data.length ? setIsProfileComplete(true) : setIsProfileComplete(false);
             }catch (e){
               console.error(e)

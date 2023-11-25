@@ -113,6 +113,7 @@ export default function NavBar({isLoggedIn, setIsLoggedIn, numberOfItemsInCart, 
             setSignUpError({signUpTry: false, error:false}),
             setSignInError({signTry: false, error: false}),
             setIsLoggedIn(false)
+            setIsProfileComplete(false)
         }, 500)
     }
     //Profile

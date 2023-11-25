@@ -3,7 +3,13 @@ const client = require('../../databaseConnection');
 //validate input !!! account_id czy jest i data czy jest zgodna z paternem
 const getProfile = async (req, res) => {
     try{
-        const { account_id } = req.params;
+        let account_id = null;
+        if(req.user){
+            account_id = req.user.account_id;
+        }else{
+            res.status(401).json({status: false, error: 'User not logged in'})
+            return;
+        }
         let output = [];
     
         const profileResponse = await client.query('SELECT firstname, lastname, phone_number, city, zipCode, street, houseNumber FROM profile where account_id=$1', [account_id]);
@@ -30,7 +36,14 @@ const getProfile = async (req, res) => {
 //validate input !!! account_id czy jest i data czy jest zgodna z paternem
 const createProfile = async (req, res) => {
     try{
-        const { account_id } = req.params;
+        let account_id = null;
+        if(req.user){
+            account_id = req.user.account_id;
+            console.log(account_id);
+        }else{
+            res.status(401).json({status: false, error: 'User not logged in'})
+            return;
+        }
         const data = req.body;
         let output = [];
         const profileResponse = await client.query(`INSERT INTO profile(profile_id, account_id, firstname, lastname, phone_number, city, zipCode, street, houseNumber) 
