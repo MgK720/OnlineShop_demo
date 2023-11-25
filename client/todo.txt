@@ -11,3 +11,4 @@
 
 7. na koniec koniecznie przy wszystkich zapytaniach do bazy danych zrobić loadingstate'y
 8. dark mode
+9. Przerobić zapytania które wymagają zalogowania - wysyłać request z tokenem od razu i wtedy api na jednym roucie musi sprawdzać czy token jest zgodny
