@@ -12,13 +12,23 @@ import TextInput from "./TextInput";
 //moze jescze endDecorator lub startDecorator dla inputów
 //ustawić maxlength dla kazdej wartości
 
+const MAX_LENGTH = {
+    firstname: 20,
+    lastname: 20,
+    phoneNumber: 30,
+    city: 20,
+    zipCode: 15,
+    street: 20,
+    houseNumber: 10,
+  };
+
 export default function DeliveryForm({open, setOpen, handleClose, isProfileComplete, setIsProfileComplete, logout}) {
     const [data, setData] = useState({
         firstname: {
             inputName: 'firstname',
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 20
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -30,7 +40,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             inputName: 'lastname',
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 20
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -39,16 +49,16 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             }
         },
         phoneNumber: {
-            inputName: 'phoneNumber',
+            inputName: 'phoneNumber', 
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 30
+                handleChangeFunc(evt)
                 const regExp = /[a-zA-Z]/g;
                 const isInvalid = regExp.test(evt.target.value);
                 setData((currData) => {
                     return {...currData, [evt.target.name]: {...currData[evt.target.name], inputError: {status: isInvalid, msg: isInvalid ? "This is not valid phone number": ""} }}
                 })
-                handleChangeFunc(evt)
             },
             inputError: {
                 status:false,
@@ -59,7 +69,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             inputName: 'city',
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 20
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -71,7 +81,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             inputName: 'zipCode',
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 15
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -83,7 +93,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             inputName: 'street',
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 20
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -95,7 +105,7 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
             inputName: 'houseNumber',
             inputValue: "",
             isRequired: true,
-            handleChange: (evt) => {
+            handleChange: (evt) => { //maxlenght 10
                 handleChangeFunc(evt)
             },
             inputError: {
@@ -194,12 +204,49 @@ export default function DeliveryForm({open, setOpen, handleClose, isProfileCompl
         }
     }, [data, open])
 
+    // const handleChangeFunc = (evt) => {
+    //     const { name, value } = evt.target;
+    //     setData((currData) =>{
+    //         return {...currData, [name]: { ...currData[name], inputValue: value} }
+    //     })
+    // }
     const handleChangeFunc = (evt) => {
         const { name, value } = evt.target;
-        setData((currData) =>{
-            return {...currData, [name]: { ...currData[name], inputValue: value} }
-        })
-    }
+        const maxLength = MAX_LENGTH[name];
+      
+        if (value.length > maxLength) {
+          const truncatedValue = value.slice(0, maxLength);
+      
+          setData((currData) => {
+            return {
+              ...currData,
+              [name]: {
+                ...currData[name],
+                inputValue: truncatedValue,
+                inputError: {
+                  status: true,
+                  msg: `Maximum length is ${maxLength} characters.`,
+                },
+              },
+            };
+          });
+        } else {
+          setData((currData) => {
+            return {
+              ...currData,
+              [name]: {
+                ...currData[name],
+                inputValue: value,
+                inputError: {
+                  status: false,
+                  msg: "",
+                },
+              },
+            };
+          });
+        }
+    };
+
     const [createProfileError, setCreateProfileError] = useState({confirmTry: false, status: false, msg:""})
 
     const createProfile = async () => {
