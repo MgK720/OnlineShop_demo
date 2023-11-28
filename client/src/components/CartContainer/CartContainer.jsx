@@ -28,7 +28,9 @@ export default function CartContainer({toggleTheme}){
                     if(data.status === true){
                         window.dispatchEvent(new CustomEvent('successAlert', { detail: { message: data.msg } }));
                         setIsLoggedIn(true);
+                        setUser(data.user)
                     }
+                    //console.log('my user:')
                     //console.log(user);
                     //console.log(data);
                 }catch(e){
@@ -71,7 +73,17 @@ export default function CartContainer({toggleTheme}){
     //Tutaj useEffect za pierwszym renderem - sprawdzenie czy jestem zalogowany jak tak to setIsLoggedIn(true) - todo sprawdzic czy to dziala - za kazdym zalogowaniem zrob init wszystkich state'ów (???)
     
     const [cartItems, setCartItems] = useState([])
-    console.log(cartItems);
+
+    useEffect(() => {
+        const lsCartItems = JSON.parse(localStorage.getItem(`lsCartItems_${user.account_id}`));
+        console.log('My object from local storage:')
+        console.log(lsCartItems);
+        if (lsCartItems) {
+            setCartItems(lsCartItems);
+        }else{
+            setCartItems([])
+        }
+    }, [user])
 
     //OLD MainSection - lifting states up
     //kategorie pobrane z bazy danych - jesli bedzie ich wiecej niz x to wtedy wyswietl je tak jak mobile
@@ -111,6 +123,7 @@ export default function CartContainer({toggleTheme}){
     <>
         <NavBar isLoggedIn={isLoggedIn} setUser={setUser} setIsLoggedIn={setIsLoggedIn} numberOfItemsInCart={cartItems.length} cartItems={cartItems} setCartItems={setCartItems} user={user} toggleTheme={toggleTheme}/>
         <MainSection isLoggedIn={isLoggedIn} 
+            user={user}
             setCartItems={setCartItems} 
             cartItems={cartItems}
             categories={categoriesFromDB}

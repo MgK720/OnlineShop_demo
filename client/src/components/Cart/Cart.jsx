@@ -26,6 +26,7 @@ export default function Cart({open, handleClose, isProfileComplete, cartItems, s
     )
     const [alertOrder, setAlertOrder] = useState(false);
     const clearCart = () => {
+        localStorage.removeItem('lsCartItems')
         setCartItems([]);
     }
     const makeOrder = () => {

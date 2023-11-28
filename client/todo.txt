@@ -1,14 +1,61 @@
-1. Maxlength dla wszystkich inputów w ProfileForm i SignUp/SignIn
-2. Koszyk - wyswietlanie koszyka + opcja wyczysc koszyk (w przyszlosci pamietac o zapisywaniu stanu koszyka w cookies)
+1. Maxlength dla wszystkich inputów w ProfileForm - DONE i SignUp/SignIn
+2. Koszyk - wyswietlanie koszyka + opcja wyczysc koszyk (w przyszlosci pamietac o zapisywaniu stanu koszyka w cookies) - REZYGNACJA
+    (problem!!! Nie moge zapisywać tego w localstorage przez klucz maxQuantity - on moze byc inny gdy uzytkownik uruchomi stronę później - POMYSL PONIZEJ ***)
+    (gdy uzytkownik dokona zakupu i okaze sie ze w miedzy czasie ktos kupił x quantity tego produktu to 
+
+    w backend api pomysl1: const toomuchQuantityItems = [];
+                    foreach(items){
+                    try{
+                    query ktore usuwa daną ilosc quantity danego produktu
+                   } catch(e){
+                    toomuchQuantityItems.push(item_id)
+                   }
+                   if(toomuchQuantityItems.length){
+                    res.json({errorsInThisItems: toomuchQuantityItems})
+                   }
+                }
+    w backend api pomysl2: LEPSZY POMYSL
+                    try{
+                    query ktore usuwa daną ilosc quantity danego produktu
+                   } catch(e){
+                    if(error spowodowany przez problem quantity){
+                        res.status(x).json({error: "niekóre przedmioty zostały sprzedane w trakcie składania zamówienia" })
+                    }
+                   }
+    po stronie clienta: A)
+                alert + snackbar = niekóre przedmioty zostały sprzedane w trakcie składania zamówienia
+                //ponowne wyslanie zapytania o liste przedmiotow mozliwych do kupienia (const *newQuery*)
+                //ponowny render przedmiotow mozliwych do kupienia na stronie głównej
+                const newCartItems = a)lista w ktorej dla kazdego itemka ktory mial za duzo quantity zmien na maxQuantity z *newQuery* (po prostu if(quantity > maxQuantity to set quantity=maxQuantity))
+                                       jesli nowe maxQuantity = 0 w jakims itemie to usun go z listy 
+                                     b)dla wszystkich itemkow zrob update parametru maxQuantity na te z *newQuery*
+                                     c)jesli dany przedmiot nie istnieje juz w liscie dostepnych przedmiotow to usun jego object z tej listy
+                setCartItems(newCartItems)
+                //setLocalStorage na ten newCartItems
+                //po tych czynnosciach uzytkownik moze ponownie próbować złożyć zamówienie
+    Ponadto po stronie klienta: za kazdym razem gdy uruchomi stronę (lub f5) - cartContainer *** B)
+                //wyslanie zapytania o liste przedmiotow mozliwych do kupienia (const *newQuery*)
+                const newCartItems = a)lista w ktorej dla kazdego itemka ktory mial za duzo quantity zmien na maxQuantity z *newQuery* (po prostu if(quantity > maxQuantity to set quantity=maxQuantity))
+                                       jesli nowe maxQuantity = 0 w jakims itemie to usun go z listy 
+                                     b)dla wszystkich itemkow zrob update parametru maxQuantity na te z *newQuery*
+                                     c)jesli dany przedmiot nie istnieje juz w liscie dostepnych przedmiotow to usun jego object z tej listy
+                setCartItems(newCartItems)
+                //setLocalStorage na ten newCartItems
+    CALY client może mieć więc przygotowaną funkcje repairCartItems() (powielająca się funkcjonalność w dwóch miejscach) która będzie wywoływana:
+        A)gdy okaze sie że przy skladaniu zamowienia ktos juz zamowil dana ilosc produktu w miedzy czasie (lub zostaną poczynione jakies zmiany przez wlasciciela sklepu)
+            w A - pokaz snackbar: niekóre przedmioty zostały sprzedane w trakcie składania zamówienia
+        B)po załadowaniu strony (gdy uzytkownik uruchomi strone po jakims czasie lub f5) moge to jakos wtopic w aktualne pobieranie listy przedmiotow w cartContainer
+            W b - pokaz snackbar: twój koszyk został zaktualizowany
+    )
 
 3. Połączenie z cloudinary !!!
 
 4. logout jwt token delete etc... - pomyśleć o dodaniu blacklist token gdy uzytkownik sie wyloguje - po stronie servera - DONE 50%
 
-5. update Profile
+5. update Profile - DONE
 6. observer czy token nadal istnieje - żeby uzytkownik nie był w momencie updateowania profilu/ skladania zamowienia a token juz nie istnieje - kontrola czy czas zywotnosci tokenu sie skonczył - DONE
 
 
 7. na koniec koniecznie przy wszystkich zapytaniach do bazy danych zrobić loadingstate'y
-8. dark mode
-9. Przerobić zapytania które wymagają zalogowania - wysyłać request z tokenem od razu i wtedy api na jednym roucie musi sprawdzać czy token jest zgodny
+8. dark mode - DONE
+9. Przerobić zapytania które wymagają zalogowania - wysyłać request z tokenem od razu i wtedy api na jednym roucie musi sprawdzać czy token jest zgodny - DONE

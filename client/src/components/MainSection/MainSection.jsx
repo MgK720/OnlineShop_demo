@@ -9,7 +9,7 @@ import { Box, Divider } from "@mui/material";
 
 import { useMediaQuery } from '@mui/material';
 
-export default function MainSection({isLoggedIn, cartItems,setCartItems,setUser, alignmentCategory,categories, setAlignmentCategory, dataFromDB}) {
+export default function MainSection({isLoggedIn, cartItems,setCartItems,setUser, alignmentCategory,categories, setAlignmentCategory, dataFromDB, user}) {
     const [numberOfItems, setNumberOfItems] = useState(() => initNumberOfItemsObject(dataFromDB))
 
     const isMobile = useMediaQuery('(max-width:900px)');
@@ -70,6 +70,7 @@ export default function MainSection({isLoggedIn, cartItems,setCartItems,setUser,
                 updatedCartItems.push({ itemId, name, imgsrc, quantity, maxQuantity, price });
             }
 
+            localStorage.setItem(`lsCartItems_${user.account_id}`, JSON.stringify(updatedCartItems));
             return updatedCartItems;
 
             //return [...currData, {itemId: itemId, quantity: quantity} ]
