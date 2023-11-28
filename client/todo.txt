@@ -16,10 +16,15 @@
                 }
     w backend api pomysl2: LEPSZY POMYSL
                     try{
-                    query ktore usuwa daną ilosc quantity danego produktu
+                    query ktore usuwa daną ilosc quantity danego produktu - tutaj kolejny problem wszystkie te zapytania muszą się wywołać na raz, tzn nie moze sie wywołać tylko 
+                    połowa i zrobić update tylko w czesci przedmiotow ktore byly w koszyku - lepiej zrobic tutaj query ktore zrobi SELECT i sprawdzi czy jest wgl tyle przedmiotow
+                    a)jesli bedzie tyle przedmiotow -> przejdz do dalszych query - update tabeli items, insert to orders
+                    b)jesli nie bedzie tyle przedmiotow (zrobic sensowne zapytanie ktore sprawdzi liste itemkow) 
+                      to: res.status(x).json({error: "niekóre przedmioty zostały sprzedane w trakcie składania zamówienia" }); return;
+                      
                    } catch(e){
-                    if(error spowodowany przez problem quantity){
-                        res.status(x).json({error: "niekóre przedmioty zostały sprzedane w trakcie składania zamówienia" })
+                    if(error spowodowany NIE przez problem quantity){
+                        res.status(x).json({error: "internal server error" })
                     }
                    }
     po stronie clienta: A)
