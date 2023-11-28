@@ -21,7 +21,7 @@
                     a)jesli bedzie tyle przedmiotow -> przejdz do dalszych query - update tabeli items, insert to orders
                     b)jesli nie bedzie tyle przedmiotow (zrobic sensowne zapytanie ktore sprawdzi liste itemkow) 
                       to: res.status(x).json({error: "niekóre przedmioty zostały sprzedane w trakcie składania zamówienia" }); return;
-                      
+
                    } catch(e){
                     if(error spowodowany NIE przez problem quantity){
                         res.status(x).json({error: "internal server error" })
@@ -51,6 +51,8 @@
             w A - pokaz snackbar: niekóre przedmioty zostały sprzedane w trakcie składania zamówienia
         B)po załadowaniu strony (gdy uzytkownik uruchomi strone po jakims czasie lub f5) moge to jakos wtopic w aktualne pobieranie listy przedmiotow w cartContainer
             W b - pokaz snackbar: twój koszyk został zaktualizowany
+            do testow uzyc dwoch przegladarek
+            wybralem localstorage zamiast przechowywania w bazie danych bo są to zbyt zmienne dane
     )
 
 3. Połączenie z cloudinary !!!
