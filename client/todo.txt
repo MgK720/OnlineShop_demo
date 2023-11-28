@@ -51,6 +51,8 @@
             w A - pokaz snackbar: niekóre przedmioty zostały sprzedane w trakcie składania zamówienia
         B)po załadowaniu strony (gdy uzytkownik uruchomi strone po jakims czasie lub f5) moge to jakos wtopic w aktualne pobieranie listy przedmiotow w cartContainer
             W b - pokaz snackbar: twój koszyk został zaktualizowany
+            dzieki zastosowaniu takiej funckji mógłbym nawet robić aktualizacje live co np 5 minut i pokazywac uzytkownikowi snackbar "changes in prices and quantity" - do pomyślenia
+            + pokazywać zegar na stronie: timer - do czasu odświeżenia strony (wady - wieksze obciązenie servera bazy danych ---)
             do testow uzyc dwoch przegladarek
             wybralem localstorage zamiast przechowywania w bazie danych bo są to zbyt zmienne dane
     )
