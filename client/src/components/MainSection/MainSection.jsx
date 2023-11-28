@@ -60,6 +60,8 @@ export default function MainSection({isLoggedIn, cartItems,setCartItems,setUser,
                 if (updatedCartItems[i].itemId === itemId) {
                     if(updatedCartItems[i].quantity + quantity <= maxQuantity){
                         updatedCartItems[i].quantity += quantity
+                    }else{
+                        window.dispatchEvent(new CustomEvent('warningAlert', { detail: { message: "don't that much quantity in stock" } }));
                     }
                     itemExists = true;
                     break;
