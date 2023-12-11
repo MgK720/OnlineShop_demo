@@ -64,7 +64,7 @@
 5. update Profile - DONE
 6. observer czy token nadal istnieje - żeby uzytkownik nie był w momencie updateowania profilu/ skladania zamowienia a token juz nie istnieje - kontrola czy czas zywotnosci tokenu sie skonczył - DONE
 
-..
+...
 7. na koniec koniecznie przy wszystkich zapytaniach do bazy danych zrobić loadingstate'y
 8. dark mode - DONE
 9. Przerobić zapytania które wymagają zalogowania - wysyłać request z tokenem od razu i wtedy api na jednym roucie musi sprawdzać czy token jest zgodny - DONE
